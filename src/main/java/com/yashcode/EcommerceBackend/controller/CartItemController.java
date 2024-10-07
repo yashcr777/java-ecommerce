@@ -24,15 +24,13 @@ public class CartItemController {
     private final ICartItemService cartItemService;
     private final IUserService userService;
 
-//    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/item/add")
     public ResponseEntity<ApiResponse>addItemToCart(@RequestParam Long productId,
-                                                    @RequestParam Integer quantity,
-                                                    @RequestParam Long id)
+                                                    @RequestParam Integer quantity)
     {
         try{
-            User user=userService.getUserById(id);
-            System.out.println("Hello");
+            User user=userService.getAuthenticatedUser();
             Cart cart=cartService.initializeNewCart(user);
             cartItemService.addItemToCart(cart.getId(),productId,quantity);
             return ResponseEntity.ok(new ApiResponse("Add Item Success",null));
