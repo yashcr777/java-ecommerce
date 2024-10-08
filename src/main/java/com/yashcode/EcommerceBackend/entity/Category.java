@@ -1,10 +1,5 @@
 package com.yashcode.EcommerceBackend.entity;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +16,7 @@ public class Category {
     private Long id;
     private String name;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Product> products;
 

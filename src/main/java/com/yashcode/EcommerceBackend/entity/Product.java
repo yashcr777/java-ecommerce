@@ -1,6 +1,7 @@
 package com.yashcode.EcommerceBackend.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,12 +23,12 @@ public class Product {
     private int inventory;
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER , cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER , cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name="product_x_category", joinColumns =
             @JoinColumn (name = "product_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "category_id",referencedColumnName = "id")
     )
-    @JsonManagedReference
+    @JsonIgnore
     private List<Category> category;
 
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)

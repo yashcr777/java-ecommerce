@@ -1,5 +1,6 @@
 package com.yashcode.EcommerceBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yashcode.EcommerceBackend.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,9 +25,11 @@ public class Order {
     private BigDecimal totalAmount;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<OrderItem> orderItems=new HashSet<>();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

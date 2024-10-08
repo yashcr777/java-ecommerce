@@ -1,5 +1,6 @@
 package com.yashcode.EcommerceBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,11 +23,12 @@ public class Cart {
     private Long id;
     private BigDecimal totalAmount=BigDecimal.ZERO;
 
-    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
     private Set<CartItem>cartItems=new HashSet<>();
 
     @OneToOne
     @JoinColumn(name="user_id")
+    @JsonIgnore
     private User user;
 
     public void addItem(CartItem item){

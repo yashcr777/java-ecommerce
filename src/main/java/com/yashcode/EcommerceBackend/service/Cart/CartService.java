@@ -5,6 +5,7 @@ import com.yashcode.EcommerceBackend.Repository.CartRepository;
 import com.yashcode.EcommerceBackend.entity.Cart;
 import com.yashcode.EcommerceBackend.entity.CartItem;
 import com.yashcode.EcommerceBackend.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 @RequiredArgsConstructor
+
 public class CartService implements ICartService {
 
     private final CartRepository cartRepository;
@@ -27,12 +29,13 @@ public class CartService implements ICartService {
         cart.setTotalAmount(totalAmount);
         return cartRepository.save(cart);
     }
-
+    @Transactional
     @Override
     public void clearCart(Long id) {
         Cart cart=getCart(id);
         cartItemRepository.deleteAllByCartId(id);
         cart.getCartItems().clear();
+        cart.setTotalAmount(BigDecimal.ZERO);
         cartRepository.deleteById(id);
     }
 

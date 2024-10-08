@@ -25,7 +25,7 @@ import java.util.List;
 public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
-    private CartService cartService;
+    private final CartService cartService;
     private final ModelMapper modelMapper;
 
     @Override

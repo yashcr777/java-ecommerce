@@ -78,14 +78,18 @@ public class ProductService implements IProductService {
         existingProduct.setBrand(productUpdateDTO.getBrand());
         existingProduct.setDescription(productUpdateDTO.getDescription());
         existingProduct.setInventory(productUpdateDTO.getInventory());
-
         Category category=categoryRepository.findByName(productUpdateDTO.getCategory().getName());
-        existingProduct.setCategory(Arrays.asList(category));
+        if(category==null){
+            category=new Category(productUpdateDTO.getCategory().getName());
+            List<Category>categories=existingProduct.getCategory();
+            categories.add(category);
+            existingProduct.setCategory(categories);
+        }
         return existingProduct;
     }
-
     @Override
     public Product updateProduct(ProductUpdateDTO productUpdateDTO, Long productId) {
+        System.out.println(productUpdateDTO);
         return productRepository.findById(productId)
                 .map(existingProduct->updateExistingProducts(existingProduct,productUpdateDTO))
                 .map(productRepository::save)
