@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ImageService implements IImageService{
     private final ImageRepository imageRepository;
-    private IProductService iProductService;
+    private final IProductService iProductService;
     @Override
     public Image getImageById(Long id) {
         return imageRepository.findById(id).orElseThrow(()->new RuntimeException("Image not found with id "+id));

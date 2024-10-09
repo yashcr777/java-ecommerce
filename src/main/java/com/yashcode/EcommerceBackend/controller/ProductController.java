@@ -26,11 +26,12 @@ import static org.springframework.http.HttpStatus.*;
 public class ProductController {
     private final IProductService productService;
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public ResponseEntity<ApiResponse>getAllProducts(){
         try {
             List<Product>productList=productService.getAllProducts();
+//            List<ProductDto>convertedProducts=productService.getConvertedProducts(productList);
             return ResponseEntity.ok(new ApiResponse("Found All Products",productList));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error",null));

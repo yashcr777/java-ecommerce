@@ -132,6 +132,7 @@ public class ProductService implements IProductService {
     }
     @Override
     public ProductDto convertToDo(Product product){
+
         ProductDto productDto=new ProductDto();
         productDto.setId(product.getId());
         productDto.setName(product.getName());
@@ -139,11 +140,10 @@ public class ProductService implements IProductService {
         Category category = new Category();
         category.setId(product.getCategory().get(0).getId());
         category.setName(product.getCategory().get(0).getName());
-        productDto.setCategory(Arrays.asList(category));
-
+        productDto.setCategory(product.getCategory());
         productDto.setBrand(product.getBrand());
         productDto.setPrice(product.getPrice());
-        productDto.setDescription(productDto.getDescription());
+        productDto.setDescription(product.getDescription());
         return productDto;
     }
     @Override

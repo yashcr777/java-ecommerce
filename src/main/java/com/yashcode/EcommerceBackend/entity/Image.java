@@ -1,5 +1,6 @@
 package com.yashcode.EcommerceBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,5 +24,6 @@ public class Image {
 
     @ManyToOne
     @JoinColumn(name="product_id")
+    @JsonIgnore
     private Product product;
 }

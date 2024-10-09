@@ -31,6 +31,7 @@ public class Product {
     @JsonIgnore
     private List<Category> category;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Image> images;
 
