@@ -4,6 +4,7 @@ import com.yashcode.EcommerceBackend.dto.UserDto;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.request.CreateUserRequest;
+import com.yashcode.EcommerceBackend.request.ForgotPasswordRequest;
 import com.yashcode.EcommerceBackend.request.UserUpdateRequest;
 import com.yashcode.EcommerceBackend.response.ApiResponse;
 import com.yashcode.EcommerceBackend.service.user.IUserService;
@@ -50,6 +51,17 @@ public class UserController {
             return ResponseEntity.ok(new ApiResponse("Success",userDto));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
+    @PostMapping("/forgotpassword")
+    public ResponseEntity<ApiResponse>forgotPassword(@RequestBody ForgotPasswordRequest request){
+        try{
+            User user=userService.forgotPassword(request);
+            UserDto userDto=userService.convertUserToDto(user);
+            return ResponseEntity.ok(new ApiResponse("Successfully updated Password",userDto));
+        }
+        catch(ResourceNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
     @PutMapping("/{userId}/update")

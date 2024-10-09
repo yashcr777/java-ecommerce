@@ -31,7 +31,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt=parseJwt(request);
-//            System.out.println(jwt);
             if(StringUtils.hasText(jwt) && jwtUtils.validateToken(jwt)){
                 String username=jwtUtils.getUsernameFromToken(jwt);
                 UserDetails userDetails=userDetailsService.loadUserByUsername(username);

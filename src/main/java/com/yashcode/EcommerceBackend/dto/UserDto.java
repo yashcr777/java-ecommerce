@@ -1,7 +1,9 @@
 package com.yashcode.EcommerceBackend.dto;
 
-import java.util.List;
+import lombok.Data;
 
+import java.util.List;
+@Data
 public class UserDto {
     private String firstName;
     private String lastName;
