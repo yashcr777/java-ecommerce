@@ -26,7 +26,7 @@ import static org.springframework.http.HttpStatus.*;
 public class ProductController {
     private final IProductService productService;
 
-//    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping("/all")
     public ResponseEntity<ApiResponse>getAllProducts(){
         try {
@@ -37,7 +37,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error",null));
         }
     }
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROlE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<ApiResponse>addProduct(@RequestBody AddProductDTO addProductDTO)
     {

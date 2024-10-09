@@ -56,7 +56,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
 
 
     private void createDefaultAdminIfNotExists(){
-        Role adminRole=roleRepository.findByName("ROLE_ADMIN").get();
+        Role adminRole=roleRepository.findByName("Role_ADMIN").get();
         for(int i=1;i<=2;i++)
         {
             String defaultEmail="admin"+i+"@gmail.com";
