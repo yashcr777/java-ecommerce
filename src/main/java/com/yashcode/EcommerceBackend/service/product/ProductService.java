@@ -140,10 +140,14 @@ public class ProductService implements IProductService {
         Category category = new Category();
         category.setId(product.getCategory().get(0).getId());
         category.setName(product.getCategory().get(0).getName());
-        productDto.setCategory(product.getCategory());
         productDto.setBrand(product.getBrand());
         productDto.setPrice(product.getPrice());
         productDto.setDescription(product.getDescription());
+        List<Image>images=imageRepository.findByProductId(product.getId());
+        List<ImageDto>dto=images.stream()
+                .map(image->modelMapper.map(image,ImageDto.class))
+                .toList();
+        productDto.setImages(dto);
         return productDto;
     }
     @Override

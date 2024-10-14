@@ -31,7 +31,7 @@ public class ProductController {
     public ResponseEntity<ApiResponse>getAllProducts(){
         try {
             List<Product>productList=productService.getAllProducts();
-//            List<ProductDto>convertedProducts=productService.getConvertedProducts(productList);
+            List<ProductDto>convertedProducts=productService.getConvertedProducts(productList);
             return ResponseEntity.ok(new ApiResponse("Found All Products",productList));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error",null));

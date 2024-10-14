@@ -38,10 +38,14 @@ public class UserService implements IUserService {
         return userRepository.findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException("User Not Found!"));
     }
+
+
     @Override
     public List<User> getAllUser(){
        return  userRepository.findAll();
     }
+
+
     @Override
     public User forgotPassword(ForgotPasswordRequest request){
         return Optional.ofNullable(userRepository.findByEmail(request.getEmail()))
@@ -52,6 +56,8 @@ public class UserService implements IUserService {
                 }).orElseThrow(()->new UsernameNotFoundException("User not found"));
 
     }
+
+
     @Override
     public User createUser(CreateUserRequest request) {
         return Optional.of(request)
@@ -68,6 +74,7 @@ public class UserService implements IUserService {
                 }).orElseThrow(()->new AlreadyExistException("Oops!"+request.getEmail()+"already exists!"));
     }
 
+
     @Override
     public User updateUser(UserUpdateRequest request, Long userId) {
         return userRepository.findById(userId).map(existingUser->{
@@ -77,16 +84,20 @@ public class UserService implements IUserService {
         }).orElseThrow(()->new ResourceNotFoundException("User not Found!"));
     }
 
+
     @Override
     public void deletedUser(Long userId) {
         userRepository.findById(userId).ifPresentOrElse(userRepository::delete,()->{
             throw new ResourceNotFoundException("User not Found!");
         });
     }
+
+
     @Override
     public UserDto convertUserToDto(User user){
         return modelMapper.map(user,UserDto.class);
     }
+
 
     @Override
     public User getAuthenticatedUser() {

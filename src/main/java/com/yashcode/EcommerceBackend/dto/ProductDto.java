@@ -1,6 +1,7 @@
 package com.yashcode.EcommerceBackend.dto;
 
 import com.yashcode.EcommerceBackend.entity.Category;
+import com.yashcode.EcommerceBackend.entity.Image;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,6 @@ public class ProductDto {
     private BigDecimal price;
     private int inventory;
     private String description;
-    private List<Category> category;
+//    private List<Category> category;
     private List<ImageDto> images;
 }
