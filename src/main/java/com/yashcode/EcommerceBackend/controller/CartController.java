@@ -7,6 +7,7 @@ import com.yashcode.EcommerceBackend.response.ApiResponse;
 import com.yashcode.EcommerceBackend.service.Cart.ICartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -18,7 +19,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequestMapping("${api.prefix}/carts")
 public class CartController {
     private final ICartService cartService;
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping("/{cartId}/my-cart")
     public ResponseEntity<ApiResponse>getCart(@PathVariable Long cartId)
     {
@@ -29,6 +30,7 @@ public class CartController {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @DeleteMapping("/{cartId}/clear")
     public ResponseEntity<ApiResponse>clearCart(@PathVariable Long cartId)
     {
@@ -39,6 +41,7 @@ public class CartController {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping("/{cartId}/cart/total-price")
     public ResponseEntity<ApiResponse>getTotalAmount(@PathVariable Long cartId){
         try{

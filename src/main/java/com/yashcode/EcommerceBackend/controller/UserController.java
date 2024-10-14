@@ -23,7 +23,7 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
 
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping("/{userId}/user")
     public ResponseEntity<ApiResponse>getUserById(@PathVariable Long userId){
         try {
