@@ -54,6 +54,7 @@ public class CartItemService implements ICartItemService {
     @Override
     public void updateItemQuantity(Long cartId, Long productId, int quantity) {
         Cart cart=cartService.getCart(cartId);
+        System.out.println(cart);
         cart.getCartItems()
                 .stream()
                 .filter(item->item.getProduct().getId().equals(productId))

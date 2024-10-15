@@ -37,7 +37,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error",null));
         }
     }
-    @PreAuthorize("hasRole('ROlE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<ApiResponse>addProduct(@RequestBody AddProductDTO addProductDTO)
     {

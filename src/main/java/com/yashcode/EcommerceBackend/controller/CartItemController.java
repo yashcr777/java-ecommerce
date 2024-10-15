@@ -41,6 +41,7 @@ public class CartItemController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse(e.getMessage(),null));
         }
     }
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/cart/{cartId}/item/{itemId}/remove")
     public ResponseEntity<ApiResponse>removeItemFromCart(@PathVariable Long cartId,@PathVariable Long itemId){
         try{
@@ -50,6 +51,7 @@ public class CartItemController {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/cart/{cartId}/item/{itemId}/update")
     public ResponseEntity<ApiResponse>updateItemQuantity(@PathVariable Long cartId,
                                                          @PathVariable Long itemId,

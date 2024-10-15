@@ -52,7 +52,7 @@ public class UserController {
             UserDto userDto=userService.convertUserToDto(user);
             return ResponseEntity.ok(new ApiResponse("Success",userDto));
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(e.getMessage(),null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()+"we",null));
         }
     }
     @PostMapping("/forgotpassword")
