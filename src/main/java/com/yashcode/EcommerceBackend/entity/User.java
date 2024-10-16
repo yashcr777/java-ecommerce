@@ -2,6 +2,8 @@ package com.yashcode.EcommerceBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +25,7 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
-    @NaturalId
+
     private String email;
     private String password;
 

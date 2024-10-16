@@ -13,6 +13,8 @@ import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +36,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("all")
     public ResponseEntity<ApiResponse>getAllUser(){
@@ -44,17 +48,20 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse>createUser(@RequestBody CreateUserRequest request)
+    public ResponseEntity<ApiResponse>createUser(@RequestBody @Validated CreateUserRequest request)
     {
         try {
             User user=userService.createUser(request);
             UserDto userDto=userService.convertUserToDto(user);
             return ResponseEntity.ok(new ApiResponse("Success",userDto));
+
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()+"we",null));
         }
     }
+
     @PostMapping("/forgotpassword")
     public ResponseEntity<ApiResponse>forgotPassword(@RequestBody ForgotPasswordRequest request){
         try{
@@ -66,6 +73,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @PutMapping("/{userId}/update")
     public ResponseEntity<ApiResponse>updateUser(@RequestBody UserUpdateRequest request,@PathVariable Long userId)
     {

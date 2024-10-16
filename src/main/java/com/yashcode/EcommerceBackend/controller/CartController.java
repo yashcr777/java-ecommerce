@@ -1,6 +1,4 @@
 package com.yashcode.EcommerceBackend.controller;
-
-
 import com.yashcode.EcommerceBackend.entity.Cart;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.response.ApiResponse;
@@ -19,6 +17,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequestMapping("${api.prefix}/carts")
 public class CartController {
     private final ICartService cartService;
+
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping("/{cartId}/my-cart")
     public ResponseEntity<ApiResponse>getCart(@PathVariable Long cartId)
@@ -30,6 +30,8 @@ public class CartController {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @DeleteMapping("/{cartId}/clear")
     public ResponseEntity<ApiResponse>clearCart(@PathVariable Long cartId)

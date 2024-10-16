@@ -1,8 +1,8 @@
 package com.yashcode.EcommerceBackend.service.user;
 
-import com.yashcode.EcommerceBackend.dto.CreatedUserDto;
+
 import com.yashcode.EcommerceBackend.dto.UserDto;
-import com.yashcode.EcommerceBackend.dto.UserUpdateDto;
+
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.request.CreateUserRequest;
 import com.yashcode.EcommerceBackend.request.ForgotPasswordRequest;
