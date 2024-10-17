@@ -12,6 +12,5 @@ public class LoginRequest {
     @NotBlank(message = "Email cannot be empty")
     private String email;
     @NotBlank(message = "Password cannot be empty")
-    @Size(min = 10, max = 10, message = "{Password must have length of ten}")
     private String password;
 }

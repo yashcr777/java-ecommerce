@@ -2,9 +2,9 @@ package com.yashcode.EcommerceBackend.service.user;
 
 import com.yashcode.EcommerceBackend.Repository.RoleRepository;
 import com.yashcode.EcommerceBackend.Repository.UserRepository;
-import com.yashcode.EcommerceBackend.dto.CreatedUserDto;
+
 import com.yashcode.EcommerceBackend.dto.UserDto;
-import com.yashcode.EcommerceBackend.dto.UserUpdateDto;
+
 import com.yashcode.EcommerceBackend.entity.Role;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.AlreadyExistException;
@@ -13,7 +13,10 @@ import com.yashcode.EcommerceBackend.request.CreateUserRequest;
 import com.yashcode.EcommerceBackend.request.ForgotPasswordRequest;
 import com.yashcode.EcommerceBackend.request.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +29,11 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService implements IUserService {
+
+
+
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
@@ -34,9 +41,11 @@ public class UserService implements IUserService {
 
     @Override
     public User getUserById(Long userId) {
-        System.out.println(userId);
         return userRepository.findById(userId)
-                .orElseThrow(()->new ResourceNotFoundException("User Not Found!"));
+                .orElseThrow(()->{
+                    log.error("User with the given id not found");
+                    return new ResourceNotFoundException("User Not Found!");
+                });
     }
 
 
@@ -53,7 +62,10 @@ public class UserService implements IUserService {
                     User user=userRepository.findByEmail(request.getEmail());
                     user.setPassword(passwordEncoder.encode(request.getPassword()));
                     return userRepository.save(user);
-                }).orElseThrow(()->new UsernameNotFoundException("User not found"));
+                }).orElseThrow(()->{
+                    log.error("User not Found");
+                    return new UsernameNotFoundException("User not found");
+                });
 
     }
 
@@ -71,7 +83,7 @@ public class UserService implements IUserService {
                     Role userRole=roleRepository.findByName("ROLE_USER").get();
                     user.setRoles(Set.of(userRole));
                     return userRepository.save(user);
-                }).orElseThrow(()->new AlreadyExistException("Oops!"+request.getEmail()+"already exists!"));
+                }).orElseThrow(()-> new AlreadyExistException("Oops!"+request.getEmail()+"already exists!"));
     }
 
 
@@ -80,14 +92,19 @@ public class UserService implements IUserService {
         return userRepository.findById(userId).map(existingUser->{
             existingUser.setFirstName(request.getFirstName());
             existingUser.setLastName(request.getLastName());
+            log.info("User updated Successfully");
             return userRepository.save(existingUser);
-        }).orElseThrow(()->new ResourceNotFoundException("User not Found!"));
+        }).orElseThrow(()->{
+            log.error("User is not found");
+            return new ResourceNotFoundException("User not Found!");
+        });
     }
 
 
     @Override
     public void deletedUser(Long userId) {
         userRepository.findById(userId).ifPresentOrElse(userRepository::delete,()->{
+            log.info("User is not present");
             throw new ResourceNotFoundException("User not Found!");
         });
     }
