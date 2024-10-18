@@ -17,6 +17,7 @@ import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -77,7 +78,11 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteProductById(Long id) {
-        productRepository.findById(id).ifPresentOrElse(productRepository::delete,()->{throw new ProductNotFoundException("Product not found");});
+        productRepository.findById(id).ifPresentOrElse(productRepository::delete,()->
+        {
+            log.info("Cannot delete the product");
+            throw new ProductNotFoundException("Product not found");
+        });
     }
 
     private Product updateExistingProducts(Product existingProduct, ProductUpdateDTO productUpdateDTO)
@@ -103,14 +108,20 @@ public class ProductService implements IProductService {
                 .map(existingProduct->updateExistingProducts(existingProduct,productUpdateDTO))
                 .map(productRepository::save)
                 .orElseThrow(()->{
-                    log.info("Product with given id is not found!");
+                    log.warn("Product with given id is not found!");
                     return new ProductNotFoundException("Product not Found");
                 });
     }
 
     @Override
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        try {
+            return productRepository.findAll();
+        }
+        catch(ResourceNotFoundException e){
+            log.warn("There is no product present");
+            throw new ResourceNotFoundException(e.getMessage());
+        }
     }
 
     @Override
@@ -119,6 +130,7 @@ public class ProductService implements IProductService {
             return productRepository.findByCategoryName(category);
         }
         catch (ResourceNotFoundException e){
+            log.info("There is not product with the given category name!");
             throw new ResourceNotFoundException(e.getMessage());
         }
     }
@@ -188,5 +200,13 @@ public class ProductService implements IProductService {
     @Override
     public List<ProductDto>getConvertedProducts(List<Product>products) {
         return products.stream().map(this::convertToDo).toList();
+    }
+    @Override
+    public List<Product>sortByField(String field){
+        return productRepository.findAll(Sort.by(Sort.Direction.ASC,field));
+    }
+    @Override
+    public List<Product>sortByFieldDesc(String field){
+        return productRepository.findAll((Sort.by(Sort.Direction.DESC,field)));
     }
 }

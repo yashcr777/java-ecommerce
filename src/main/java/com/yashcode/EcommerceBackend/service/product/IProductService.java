@@ -22,4 +22,6 @@ public interface IProductService {
     Long countProductsByBrandAndName(String brand,String name);
     ProductDto convertToDo(Product product);
     List<ProductDto>getConvertedProducts(List<Product>products);
+    List<Product>sortByField(String field);
+    List<Product>sortByFieldDesc(String field);
 }

@@ -151,4 +151,13 @@ public class ProductController {
             return ResponseEntity.ok(new ApiResponse(e.getMessage(),null));
         }
     }
+
+    @GetMapping("/sort/{field}")
+    public List<Product>sortProducts(@PathVariable String field){
+        return productService.sortByField(field);
+    }
+    @GetMapping("/sortdesc/{field}")
+    public List<Product>sortProductsByDesc(@PathVariable String field){
+        return productService.sortByFieldDesc(field);
+    }
 }
