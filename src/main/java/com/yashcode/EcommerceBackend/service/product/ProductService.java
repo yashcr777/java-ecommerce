@@ -13,7 +13,9 @@ import com.yashcode.EcommerceBackend.entity.Image;
 import com.yashcode.EcommerceBackend.entity.Product;
 import com.yashcode.EcommerceBackend.exceptions.AlreadyExistException;
 import com.yashcode.EcommerceBackend.exceptions.ProductNotFoundException;
+import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
@@ -93,7 +96,10 @@ public class ProductService implements IProductService {
         return productRepository.findById(productId)
                 .map(existingProduct->updateExistingProducts(existingProduct,productUpdateDTO))
                 .map(productRepository::save)
-                .orElseThrow(()->new ProductNotFoundException("Product not Found"));
+                .orElseThrow(()->{
+                    log.info("Product with given id is not found!");
+                    return new ProductNotFoundException("Product not Found");
+                });
     }
 
     @Override
@@ -103,17 +109,32 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getProductByCategory(String category) {
-        return productRepository.findByCategoryName(category);
+        try {
+            return productRepository.findByCategoryName(category);
+        }
+        catch (ResourceNotFoundException e){
+            throw new ResourceNotFoundException(e.getMessage());
+        }
     }
 
     @Override
     public List<Product> getProductsByBrand(String brand) {
-        return productRepository.findByBrand(brand);
+        try {
+            return productRepository.findByBrand(brand);
+        }
+        catch (ResourceNotFoundException e){
+            throw new ResourceNotFoundException(e.getMessage());
+        }
     }
 
     @Override
     public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
-        return productRepository.findByCategoryNameAndBrand(category,brand);
+        try {
+            return productRepository.findByCategoryNameAndBrand(category, brand);
+        }
+        catch(ResourceNotFoundException e){
+            throw new ResourceNotFoundException("Product with given category or brand name is not present");
+        }
     }
 
     @Override

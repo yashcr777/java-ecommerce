@@ -3,42 +3,57 @@ package com.yashcode.EcommerceBackend.service.order;
 import com.yashcode.EcommerceBackend.Repository.OrderRepository;
 import com.yashcode.EcommerceBackend.Repository.ProductRepository;
 import com.yashcode.EcommerceBackend.dto.OrderDto;
-import com.yashcode.EcommerceBackend.entity.Cart;
-import com.yashcode.EcommerceBackend.entity.Order;
-import com.yashcode.EcommerceBackend.entity.OrderItem;
-import com.yashcode.EcommerceBackend.entity.Product;
+import com.yashcode.EcommerceBackend.entity.*;
 import com.yashcode.EcommerceBackend.enums.OrderStatus;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.service.Cart.CartService;
+import com.yashcode.EcommerceBackend.service.user.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final IUserService userService;
     private final CartService cartService;
     private final ModelMapper modelMapper;
 
     @Override
     @Transactional
     public Order placeOrder(Long userId) {
-        Cart cart=cartService.getCartByUserId(userId);
-        Order order=createOrder(cart);
-        List<OrderItem>orderItemList=createOrderItems(order,cart);
-        order.setOrderItems(new HashSet<>(orderItemList));
-        order.setTotalAmount(calculateTotalAmount(orderItemList));
-        Order savedOrder=orderRepository.save(order);
-        cartService.clearCart(cart.getId());
-        return savedOrder;
+        try {
+            Cart cart = cartService.getCartByUserId(userId);
+            if(cart.getTotalAmount()==BigDecimal.ZERO) {
+                Order order = createOrder(cart);
+                List<OrderItem> orderItemList = createOrderItems(order, cart);
+                order.setOrderItems(new HashSet<>(orderItemList));
+                order.setTotalAmount(calculateTotalAmount(orderItemList));
+                Order savedOrder = orderRepository.save(order);
+                cartService.clearCart(cart.getId());
+                return savedOrder;
+            }
+            else{
+                log.info("Cart is empty!");
+                throw new ResourceNotFoundException("Cart is empty");
+            }
+        }
+        catch(UsernameNotFoundException e){
+            log.error("User not found or cart is empty with given id so order is not placed!");
+            throw new UsernameNotFoundException("User not found or cart is empty");
+        }
     }
 
     private Order createOrder(Cart cart){
@@ -62,8 +77,22 @@ public class OrderService implements IOrderService {
     }
     @Override
     public List<OrderDto> getUserOrders(Long userId) {
-        List<Order>orders=orderRepository.findByUserId(userId);
-        return orders.stream().map(this::convertToDto).toList();
+        try {
+            User user=userService.getAuthenticatedUser();
+            if(user.getId().equals(userId)) {
+                List<Order> orders = orderRepository.findByUserId(userId);
+                log.info("Successfully returned list of orders");
+                return orders.stream().map(this::convertToDto).toList();
+            }
+            else{
+                log.error("User not found");
+                throw new ResourceNotFoundException("User not found");
+            }
+        }
+        catch(Exception e){
+            log.info("Order list is empty");
+            throw new ResourceNotFoundException("Order with given user id not present");
+        }
     }
 
     @Override
@@ -71,7 +100,10 @@ public class OrderService implements IOrderService {
     {
         return orderRepository.findById(orderId)
                 .map(this::convertToDto)
-                .orElseThrow(()->new ResourceNotFoundException("Order Not Found"));
+                .orElseThrow(()->{
+                    log.info("Order Not found with given orderId");
+                    return new ResourceNotFoundException("Order Not Found");
+                });
     }
 
     private BigDecimal calculateTotalAmount(List<OrderItem>orderItemList){
