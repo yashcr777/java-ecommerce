@@ -49,7 +49,13 @@ public class ProductService implements IProductService {
     }
 
     private boolean productExists(String name,String brand){
-        return productRepository.existsByNameAndBrand(name,brand);
+        try {
+            return productRepository.existsByNameAndBrand(name, brand);
+        }
+        catch(Exception e){
+            log.info("Product not found");
+            throw new ResourceNotFoundException("Product not found with given name and brand!");
+        }
     }
 
     private Product createProduct(AddProductDTO dto, Category category)
@@ -123,6 +129,7 @@ public class ProductService implements IProductService {
             return productRepository.findByBrand(brand);
         }
         catch (ResourceNotFoundException e){
+            log.info("Product not found!");
             throw new ResourceNotFoundException(e.getMessage());
         }
     }
@@ -133,13 +140,20 @@ public class ProductService implements IProductService {
             return productRepository.findByCategoryNameAndBrand(category, brand);
         }
         catch(ResourceNotFoundException e){
+            log.info("Product is not found with given brand name and category name");
             throw new ResourceNotFoundException("Product with given category or brand name is not present");
         }
     }
 
     @Override
     public List<Product> getProductsByName(String name) {
-        return productRepository.findByName(name);
+        try {
+            return productRepository.findByName(name);
+        }
+        catch(ResourceNotFoundException e){
+            log.info("Product with given name is not present");
+            throw new ResourceNotFoundException("Product not found!");
+        }
     }
 
     @Override
