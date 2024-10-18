@@ -2,6 +2,7 @@ package com.yashcode.EcommerceBackend.controller;
 
 
 import com.yashcode.EcommerceBackend.entity.Category;
+import com.yashcode.EcommerceBackend.entity.Product;
 import com.yashcode.EcommerceBackend.exceptions.AlreadyExistException;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.response.ApiResponse;
@@ -77,5 +78,21 @@ public class CategoryController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
+    }
+    @GetMapping("/sort/{field}")
+    public List<Category>sortCategory(@PathVariable String field){
+        return categoryService.sortByField(field);
+    }
+    @GetMapping("/sortdesc/{field}")
+    public List<Category>sortCategoryByDesc(@PathVariable String field){
+        return categoryService.sortByFieldDesc(field);
+    }
+    @GetMapping("/pagination/{offset}/{pageSize}")
+    public List<Category> categoryPagination(@PathVariable int offset, @PathVariable int pageSize){
+        return categoryService.getCategoryByPagination(offset,pageSize).getContent();
+    }
+    @GetMapping("/paginationAndSorting/{offset}/{pageSize}/{field}")
+    public List<Category> categoriesPaginationAndSorting(@PathVariable int offset, @PathVariable int pageSize,@PathVariable String field){
+        return categoryService.getCategoryByPaginationAndSorting(offset,pageSize,field).getContent();
     }
 }

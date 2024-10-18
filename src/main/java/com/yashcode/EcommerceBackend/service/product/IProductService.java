@@ -27,4 +27,5 @@ public interface IProductService {
     List<Product>sortByFieldDesc(String field);
     Page<Product> getProductByPagination(int offset, int pageSize);
     Page<Product> getProductByPaginationAndSorting(int offset, int pageSize,String field);
+
 }

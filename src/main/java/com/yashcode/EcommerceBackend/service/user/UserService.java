@@ -3,8 +3,10 @@ package com.yashcode.EcommerceBackend.service.user;
 import com.yashcode.EcommerceBackend.Repository.RoleRepository;
 import com.yashcode.EcommerceBackend.Repository.UserRepository;
 
+import com.yashcode.EcommerceBackend.dto.ProductDto;
 import com.yashcode.EcommerceBackend.dto.UserDto;
 
+import com.yashcode.EcommerceBackend.entity.Product;
 import com.yashcode.EcommerceBackend.entity.Role;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.AlreadyExistException;
@@ -16,6 +18,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -124,5 +129,21 @@ public class UserService implements IUserService {
         String email=authentication.getName();
         System.out.println(email);
         return userRepository.findByEmail(email);
+    }
+    @Override
+    public List<User>sortByField(String field){
+        return userRepository.findAll(Sort.by(Sort.Direction.ASC,field));
+    }
+    @Override
+    public List<User>sortByFieldDesc(String field){
+        return userRepository.findAll((Sort.by(Sort.Direction.DESC,field)));
+    }
+    @Override
+    public Page<User> getUserByPagination(int offset, int pageSize){
+        return userRepository.findAll(PageRequest.of(offset,pageSize));
+    }
+    @Override
+    public Page<User> getUserByPaginationAndSorting(int offset, int pageSize,String field){
+        return userRepository.findAll(PageRequest.of(offset,pageSize).withSort(Sort.by(Sort.Direction.DESC,field)));
     }
 }

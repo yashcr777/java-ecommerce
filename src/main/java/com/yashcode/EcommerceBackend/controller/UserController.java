@@ -1,6 +1,7 @@
 package com.yashcode.EcommerceBackend.controller;
 
 import com.yashcode.EcommerceBackend.dto.UserDto;
+import com.yashcode.EcommerceBackend.entity.Product;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.request.CreateUserRequest;
@@ -93,5 +94,22 @@ public class UserController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
+    }
+
+    @GetMapping("/sort/{field}")
+    public List<User>sortUsers(@PathVariable String field){
+        return userService.sortByField(field);
+    }
+    @GetMapping("/sortdesc/{field}")
+    public List<User>sortUsersByDesc(@PathVariable String field){
+        return userService.sortByFieldDesc(field);
+    }
+    @GetMapping("/pagination/{offset}/{pageSize}")
+    public List<User> userPagination(@PathVariable int offset, @PathVariable int pageSize){
+        return userService.getUserByPagination(offset,pageSize).getContent();
+    }
+    @GetMapping("/paginationAndSorting/{offset}/{pageSize}/{field}")
+    public List<User> userPaginationAndSorting(@PathVariable int offset, @PathVariable int pageSize,@PathVariable String field){
+        return userService.getUserByPaginationAndSorting(offset,pageSize,field).getContent();
     }
 }
