@@ -3,14 +3,15 @@ package com.yashcode.EcommerceBackend.controller;
 import com.yashcode.EcommerceBackend.dto.AddProductDTO;
 import com.yashcode.EcommerceBackend.dto.ProductDto;
 import com.yashcode.EcommerceBackend.dto.ProductUpdateDTO;
-import com.yashcode.EcommerceBackend.entity.Category;
+
 import com.yashcode.EcommerceBackend.entity.Product;
-import com.yashcode.EcommerceBackend.exceptions.AlreadyExistException;
+
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.response.ApiResponse;
 import com.yashcode.EcommerceBackend.service.product.IProductService;
-import com.yashcode.EcommerceBackend.service.product.ProductService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -151,7 +152,6 @@ public class ProductController {
             return ResponseEntity.ok(new ApiResponse(e.getMessage(),null));
         }
     }
-
     @GetMapping("/sort/{field}")
     public List<Product>sortProducts(@PathVariable String field){
         return productService.sortByField(field);
@@ -159,5 +159,13 @@ public class ProductController {
     @GetMapping("/sortdesc/{field}")
     public List<Product>sortProductsByDesc(@PathVariable String field){
         return productService.sortByFieldDesc(field);
+    }
+    @GetMapping("/pagination/{offset}/{pageSize}")
+    public List<Product> productPagination(@PathVariable int offset, @PathVariable int pageSize){
+        return productService.getProductByPagination(offset,pageSize).getContent();
+    }
+    @GetMapping("/paginationAndSorting/{offset}/{pageSize}/{field}")
+    public List<Product> productPaginationAndSorting(@PathVariable int offset, @PathVariable int pageSize,@PathVariable String field){
+        return productService.getProductByPaginationAndSorting(offset,pageSize,field).getContent();
     }
 }

@@ -12,6 +12,7 @@ import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.request.CreateUserRequest;
 import com.yashcode.EcommerceBackend.request.ForgotPasswordRequest;
 import com.yashcode.EcommerceBackend.request.UserUpdateRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -100,6 +101,7 @@ public class UserService implements IUserService {
 
 
     @Override
+    @Transactional
     public void deletedUser(Long userId) {
         userRepository.findById(userId).ifPresentOrElse(userRepository::delete,()->{
             log.info("User is not present");

@@ -3,7 +3,6 @@ package com.yashcode.EcommerceBackend.service.Cart;
 import com.yashcode.EcommerceBackend.Repository.CartItemRepository;
 import com.yashcode.EcommerceBackend.Repository.CartRepository;
 import com.yashcode.EcommerceBackend.entity.Cart;
-import com.yashcode.EcommerceBackend.entity.CartItem;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import jakarta.transaction.Transactional;

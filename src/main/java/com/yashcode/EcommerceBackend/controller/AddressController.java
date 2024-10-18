@@ -46,4 +46,15 @@ public class AddressController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<ApiResponse>deleteAddress(@PathVariable Long id)
+    {
+        try {
+            addressService.deletedAddress(id);
+            return ResponseEntity.ok(new ApiResponse("Successfully Deleted Address",null));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
 }

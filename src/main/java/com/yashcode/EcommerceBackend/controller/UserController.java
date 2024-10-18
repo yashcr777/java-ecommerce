@@ -9,12 +9,10 @@ import com.yashcode.EcommerceBackend.request.UserUpdateRequest;
 import com.yashcode.EcommerceBackend.response.ApiResponse;
 import com.yashcode.EcommerceBackend.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +41,14 @@ public class AddressService implements IAddressService{
             log.error("Address not created");
             throw new ResourceNotFoundException(e.getMessage());
         }
+    }
+
+    @Override
+    @Transactional
+    public void deletedAddress(Long id) {
+        addressRepository.findById(id).ifPresentOrElse(addressRepository::delete,()->{
+            log.info("Address is not present");
+            throw new ResourceNotFoundException("Address not Found!");
+        });
     }
 }

@@ -17,6 +17,8 @@ import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -208,5 +210,13 @@ public class ProductService implements IProductService {
     @Override
     public List<Product>sortByFieldDesc(String field){
         return productRepository.findAll((Sort.by(Sort.Direction.DESC,field)));
+    }
+    @Override
+    public Page<Product> getProductByPagination(int offset, int pageSize){
+        return productRepository.findAll(PageRequest.of(offset,pageSize));
+    }
+    @Override
+    public Page<Product> getProductByPaginationAndSorting(int offset, int pageSize,String field){
+        return productRepository.findAll(PageRequest.of(offset,pageSize).withSort(Sort.by(Sort.Direction.DESC,field)));
     }
 }

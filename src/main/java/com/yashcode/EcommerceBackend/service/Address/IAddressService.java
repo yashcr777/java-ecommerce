@@ -9,4 +9,5 @@ import java.util.List;
 public interface IAddressService {
     List<Address> getAddressByUserId(Long userId);
     Address createAddress(CreateAddressRequest request, User user);
+    void deletedAddress(Long id);
 }

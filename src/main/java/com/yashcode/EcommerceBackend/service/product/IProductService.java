@@ -5,6 +5,7 @@ import com.yashcode.EcommerceBackend.dto.AddProductDTO;
 import com.yashcode.EcommerceBackend.dto.ProductDto;
 import com.yashcode.EcommerceBackend.dto.ProductUpdateDTO;
 import com.yashcode.EcommerceBackend.entity.Product;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface IProductService {
     List<ProductDto>getConvertedProducts(List<Product>products);
     List<Product>sortByField(String field);
     List<Product>sortByFieldDesc(String field);
+    Page<Product> getProductByPagination(int offset, int pageSize);
+    Page<Product> getProductByPaginationAndSorting(int offset, int pageSize,String field);
 }
