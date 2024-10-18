@@ -1,7 +1,6 @@
 package com.yashcode.EcommerceBackend.controller;
 
 import com.yashcode.EcommerceBackend.dto.UserDto;
-import com.yashcode.EcommerceBackend.entity.Product;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.request.CreateUserRequest;
