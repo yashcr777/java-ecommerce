@@ -105,7 +105,7 @@ public class OrderService implements IOrderService {
                 });
     }
 
-    private BigDecimal calculateTotalAmount(List<OrderItem>orderItemList){
+    public BigDecimal calculateTotalAmount(List<OrderItem>orderItemList){
         return orderItemList
                 .stream()
                 .map(item->item.getPrice()

@@ -21,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/users")
 public class UserController {
+
     private final IUserService userService;
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")

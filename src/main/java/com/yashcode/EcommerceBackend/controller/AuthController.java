@@ -5,7 +5,6 @@ import com.yashcode.EcommerceBackend.response.ApiResponse;
 import com.yashcode.EcommerceBackend.response.JwtResponse;
 import com.yashcode.EcommerceBackend.security.jwt.JwtUtils;
 import com.yashcode.EcommerceBackend.security.user.ShopUserDetails;
-import com.yashcode.EcommerceBackend.security.user.ShopUserDetailsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
