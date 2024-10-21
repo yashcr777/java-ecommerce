@@ -35,6 +35,8 @@ public class AddressController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+
+
     @GetMapping("/address/{userId}/user")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<ApiResponse>getAddressByUserId(@RequestParam Long userId){
@@ -46,6 +48,8 @@ public class AddressController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
+
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<ApiResponse>deleteAddress(@PathVariable Long id)
