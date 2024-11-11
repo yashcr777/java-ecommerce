@@ -25,13 +25,12 @@ public class OrderItem {
     @JoinColumn(name="order_id")
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name="product_id")
-    private Product product;
 
-    public OrderItem(Order order,Product product,int quantity,BigDecimal price){
+    private Long productId;
+
+    public OrderItem(Order order,Long productId,int quantity,BigDecimal price){
         this.order=order;
-        this.product=product;
+        this.productId=productId;
         this.quantity=quantity;
         this.price=price;
     }

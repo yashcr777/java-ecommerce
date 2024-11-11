@@ -1,7 +1,6 @@
 package com.yashcode.EcommerceBackend.service.order;
 
 import com.yashcode.EcommerceBackend.Repository.OrderRepository;
-import com.yashcode.EcommerceBackend.Repository.ProductRepository;
 import com.yashcode.EcommerceBackend.dto.OrderDto;
 import com.yashcode.EcommerceBackend.entity.*;
 import com.yashcode.EcommerceBackend.enums.OrderStatus;
@@ -25,7 +24,7 @@ import java.util.List;
 @Slf4j
 public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
+
     private final IUserService userService;
     private final CartService cartService;
     private final ModelMapper modelMapper;
@@ -64,12 +63,10 @@ public class OrderService implements IOrderService {
     }
     private List<OrderItem>createOrderItems(Order order,Cart cart){
         return cart.getCartItems().stream().map(cartItem->{
-            Product product=cartItem.getProduct();
-            product.setInventory(product.getInventory()-cartItem.getQuantity());
-            productRepository.save(product);
+            Long productId=cartItem.getProductId();
                 return new OrderItem(
                         order,
-                        product,
+                        productId,
                         cartItem.getQuantity(),
                         cartItem.getUnitPrice());
         }).toList();

@@ -9,15 +9,13 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
+
 public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String name;
 
-//    @JsonBackReference
-    @ManyToMany(mappedBy = "category", fetch = FetchType.LAZY)
+
     private List<Product> products;
 
     public Category(String name)
