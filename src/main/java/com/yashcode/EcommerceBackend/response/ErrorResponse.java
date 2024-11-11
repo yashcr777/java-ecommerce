@@ -10,8 +10,6 @@ import java.sql.Timestamp;
 public class ErrorResponse {
 
     private String message;
-
-
     private Timestamp timestamp;
 
 }
