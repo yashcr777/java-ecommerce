@@ -13,4 +13,3 @@ public class ErrorResponse {
     private Timestamp timestamp;
 
 }
-

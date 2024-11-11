@@ -5,7 +5,9 @@ import com.yashcode.EcommerceBackend.Repository.CartRepository;
 import com.yashcode.EcommerceBackend.entity.Cart;
 import com.yashcode.EcommerceBackend.entity.CartItem;
 import com.yashcode.EcommerceBackend.entity.Product;
+import com.yashcode.EcommerceBackend.entity.Products;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
+import com.yashcode.EcommerceBackend.service.ProductClient.ProductClient;
 import com.yashcode.EcommerceBackend.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,21 +18,21 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class CartItemService implements ICartItemService {
     private final CartItemRepository cartItemRepository;
-    private final IProductService productService;
     private final ICartService cartService;
     private final CartRepository cartRepository;
+    private final ProductClient pro;
     @Override
     public void addItemToCart(Long id, Long productId, int quantity) {
         Cart cart=cartService.getCart(id);
-        Product product=productService.getProductById(productId);
+        Products product=pro.getProductById(productId);
         System.out.println(product);
         CartItem cartItem=cart.getCartItems()
                 .stream()
-                .filter(item->item.getProduct().equals(productId))
+                .filter(item->item.getProductId().equals(productId))
                 .findFirst().orElse(new CartItem());
         if(cartItem.getId()==null){
             cartItem.setCart(cart);
-            cartItem.setProduct(product);
+            cartItem.setProductId(productId);
             cartItem.setQuantity(quantity);
             cartItem.setUnitPrice(product.getPrice());
         }
@@ -54,14 +56,15 @@ public class CartItemService implements ICartItemService {
     @Override
     public void updateItemQuantity(Long cartId, Long productId, int quantity) {
         Cart cart=cartService.getCart(cartId);
+        Products products=pro.getProductById(productId);
         System.out.println(cart);
         cart.getCartItems()
                 .stream()
-                .filter(item->item.getProduct().getId().equals(productId))
+                .filter(item->item.getProductId().equals(productId))
                 .findFirst()
                 .ifPresent(item->{
                     item.setQuantity(quantity);
-                    item.setUnitPrice(item.getProduct().getPrice());
+                    item.setUnitPrice(products.getPrice());
                     item.setTotalPrice();
                 });
         BigDecimal totalAmount=cart.getCartItems()
@@ -76,7 +79,7 @@ public class CartItemService implements ICartItemService {
         Cart cart=cartService.getCart(cartId);
         return cart.getCartItems()
                 .stream()
-                .filter(item->item.getProduct().getId().equals(productId))
+                .filter(item->item.getProductId().equals(productId))
                 .findFirst().orElseThrow(()->new ResourceNotFoundException("Item not found exception"));
     }
 }
