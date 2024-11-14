@@ -1,4 +1,4 @@
-package com.yashcode.EcommerceBackend.enums;
+package com.yashcode.EcommerceBackend.entity.enums;
 
 public enum OrderStatus {
     PENDING,

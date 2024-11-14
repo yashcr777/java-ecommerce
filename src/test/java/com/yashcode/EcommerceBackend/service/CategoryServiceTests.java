@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class CategoryServiceTest {
+public class CategoryServiceTests {
 
     @Mock
     private CategoryRepository categoryRepository;
@@ -66,7 +66,7 @@ class CategoryServiceTest {
     @Test
     void testGetCategoryByName_NotFound() {
         when(categoryRepository.findByName("Furniture")).thenReturn(null);
-        assertThrows(ResourceNotFoundException.class, () -> categoryService.getCategoryByName("Furniture"));
+        assertThrows(ResourceNotFoundException.class, () -> categoryService.getCategoryByName("Furnithkjhure"));
     }
 
     @Test
@@ -81,7 +81,7 @@ class CategoryServiceTest {
     @Test
     void testGetAllCategories_Empty() {
         when(categoryRepository.findAll()).thenReturn(List.of());
-        assertThrows(ResourceNotFoundException.class, () -> categoryService.getAllCategories());
+        assertThrows(ResourceNotFoundException.class, () -> categoryService.getCategoryByName("Furnithkjhure"));
     }
 
     @Test

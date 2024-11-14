@@ -26,6 +26,9 @@ public class ShopUserDetails implements UserDetails {
 
     private Collection<GrantedAuthority>authorities;
 
+    public ShopUserDetails(long l, String mail, String password123, boolean b, Object o) {
+    }
+
     public static ShopUserDetails buildUserDetails(User user){
         List<GrantedAuthority>authorities1=user.getRoles()
                 .stream()

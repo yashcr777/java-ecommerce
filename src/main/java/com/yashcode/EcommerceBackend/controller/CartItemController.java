@@ -24,7 +24,7 @@ public class CartItemController {
     private final ICartItemService cartItemService;
     private final IUserService userService;
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PostMapping("/item/add")
     public ResponseEntity<ApiResponse>addItemToCart(@RequestParam Long productId,
                                                     @RequestParam Integer quantity)

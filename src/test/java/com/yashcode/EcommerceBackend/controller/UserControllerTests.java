@@ -1,6 +1,6 @@
 package com.yashcode.EcommerceBackend.controller;
 
-import com.yashcode.EcommerceBackend.dto.UserDto;
+import com.yashcode.EcommerceBackend.entity.dto.UserDto;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.request.CreateUserRequest;
@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-class UserControllerTest {
+@SpringBootTest
+public class UserControllerTests {
 
     @Mock
     private IUserService userService;
@@ -34,6 +35,7 @@ class UserControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
+        userController=new UserController(userService);
     }
 
     @Test

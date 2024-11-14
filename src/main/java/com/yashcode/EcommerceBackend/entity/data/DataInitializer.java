@@ -1,4 +1,4 @@
-package com.yashcode.EcommerceBackend.data;
+package com.yashcode.EcommerceBackend.entity.data;
 
 
 import com.yashcode.EcommerceBackend.Repository.RoleRepository;

@@ -1,7 +1,7 @@
 package com.yashcode.EcommerceBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.yashcode.EcommerceBackend.enums.OrderStatus;
+import com.yashcode.EcommerceBackend.entity.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

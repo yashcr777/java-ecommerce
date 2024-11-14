@@ -1,10 +1,9 @@
 package com.yashcode.EcommerceBackend.controller;
 
-import com.yashcode.EcommerceBackend.dto.AddProductDTO;
-import com.yashcode.EcommerceBackend.dto.ProductDto;
-import com.yashcode.EcommerceBackend.dto.ProductUpdateDTO;
+import com.yashcode.EcommerceBackend.entity.dto.AddProductDTO;
+import com.yashcode.EcommerceBackend.entity.dto.ProductDto;
+import com.yashcode.EcommerceBackend.entity.dto.ProductUpdateDTO;
 import com.yashcode.EcommerceBackend.entity.Product;
-import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.response.ApiResponse;
 import com.yashcode.EcommerceBackend.service.product.IProductService;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +33,7 @@ public class ProductControllerTests {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        productController=new ProductController(productService);
     }
 
     @Test

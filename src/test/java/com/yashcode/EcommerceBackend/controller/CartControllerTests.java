@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @SpringBootTest
-class CartControllerTest {
+ public class CartControllerTests {
 
     @Mock
     private ICartService cartService;
@@ -29,6 +29,7 @@ class CartControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
+        cartController=new CartController(cartService);
     }
 
     @Test

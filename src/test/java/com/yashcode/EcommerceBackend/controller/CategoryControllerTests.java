@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class CategoryControllerTest {
+public class CategoryControllerTests {
 
     @Mock
     private ICategoryService categoryService;
@@ -32,6 +32,7 @@ class CategoryControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
+        categoryController=new CategoryController(categoryService);
     }
 
     @Test

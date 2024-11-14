@@ -1,9 +1,9 @@
 package com.yashcode.EcommerceBackend.service.product;
 
 
-import com.yashcode.EcommerceBackend.dto.AddProductDTO;
-import com.yashcode.EcommerceBackend.dto.ProductDto;
-import com.yashcode.EcommerceBackend.dto.ProductUpdateDTO;
+import com.yashcode.EcommerceBackend.entity.dto.AddProductDTO;
+import com.yashcode.EcommerceBackend.entity.dto.ProductDto;
+import com.yashcode.EcommerceBackend.entity.dto.ProductUpdateDTO;
 import com.yashcode.EcommerceBackend.entity.Product;
 import org.springframework.data.domain.Page;
 

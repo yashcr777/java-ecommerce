@@ -1,10 +1,9 @@
 package com.yashcode.EcommerceBackend.service.order;
-
 import com.yashcode.EcommerceBackend.Repository.OrderRepository;
 import com.yashcode.EcommerceBackend.Repository.ProductRepository;
-import com.yashcode.EcommerceBackend.dto.OrderDto;
+import com.yashcode.EcommerceBackend.entity.dto.OrderDto;
 import com.yashcode.EcommerceBackend.entity.*;
-import com.yashcode.EcommerceBackend.enums.OrderStatus;
+import com.yashcode.EcommerceBackend.entity.enums.OrderStatus;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.service.Cart.CartService;
 import com.yashcode.EcommerceBackend.service.user.IUserService;
@@ -12,13 +11,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +35,9 @@ public class OrderService implements IOrderService {
     public Order placeOrder(Long userId) {
         try {
             Cart cart = cartService.getCartByUserId(userId);
-            if(cart.getTotalAmount()==BigDecimal.ZERO) {
+            System.out.println(cart.getTotalAmount());
+            System.out.println(cart.getCartItems());
+            if(!(cart.getCartItems().isEmpty())) {
                 Order order = createOrder(cart);
                 List<OrderItem> orderItemList = createOrderItems(order, cart);
                 order.setOrderItems(new HashSet<>(orderItemList));
@@ -49,9 +51,9 @@ public class OrderService implements IOrderService {
                 throw new ResourceNotFoundException("Cart is empty");
             }
         }
-        catch(UsernameNotFoundException e){
+        catch(ResourceNotFoundException e){
             log.error("User not found or cart is empty with given id so order is not placed!");
-            throw new UsernameNotFoundException("User not found or cart is empty");
+            throw new ResourceNotFoundException("User not found or cart is empty");
         }
     }
 

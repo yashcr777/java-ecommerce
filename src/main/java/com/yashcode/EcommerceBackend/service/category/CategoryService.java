@@ -34,26 +34,20 @@ public class CategoryService implements ICategoryService{
 
     @Override
     public Category getCategoryByName(String name) {
-        try {
-            log.info("Successfully able to find categories with the Name");
-            return categoryRepository.findByName(name);
-        }
-        catch(Exception e){
-            log.error("Category not found!");
-            throw new ResourceNotFoundException(e.getMessage());
-        }
+        return Optional.ofNullable(categoryRepository.findByName(name))
+                .orElseThrow(()->{
+                    log.error("Category with given name already exists");
+                    return new ResourceNotFoundException(name+" does not exist");
+                });
     }
 
     @Override
     public List<Category> getAllCategories() {
-        try{
-            log.info("List of categories is returned");
-            return categoryRepository.findAll(); 
-        }
-        catch(Exception e){
-            log.error("There is no categories");
-            throw new ResourceNotFoundException("There is no categories");
-        }
+        return Optional.of(categoryRepository.findAll())
+                .orElseThrow(()->{
+                    log.error("Categories does not exist");
+                    return new ResourceNotFoundException("Categories  does not exist");
+                });
         
     }
 

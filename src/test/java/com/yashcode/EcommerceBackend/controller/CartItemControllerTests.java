@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class CartItemControllerTest {
+public class CartItemControllerTests {
 
     @Mock
     private ICartService cartService;
@@ -38,6 +38,7 @@ class CartItemControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
+        cartItemController=new CartItemController(cartService,cartItemService,userService);
     }
 
     @Test

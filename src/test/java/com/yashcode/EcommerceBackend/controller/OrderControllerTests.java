@@ -1,6 +1,6 @@
 package com.yashcode.EcommerceBackend.controller;
 
-import com.yashcode.EcommerceBackend.dto.OrderDto;
+import com.yashcode.EcommerceBackend.entity.dto.OrderDto;
 import com.yashcode.EcommerceBackend.entity.Order;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.response.ApiResponse;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class OrderControllerTest {
+public class OrderControllerTests {
 
     @Mock
     private IOrderService orderService;
@@ -36,6 +36,7 @@ class OrderControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
+        orderController=new OrderController(orderService,userService);
     }
 
     @Test

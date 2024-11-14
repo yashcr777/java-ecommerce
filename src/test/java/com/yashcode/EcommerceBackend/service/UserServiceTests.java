@@ -1,31 +1,10 @@
-//package com.yashcode.EcommerceBackend.service;
-//
-//import com.yashcode.EcommerceBackend.Repository.UserRepository;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
-//import static org.junit.jupiter.api.Assertions.assertNotNull;
-//
-//@SpringBootTest
-//public class UserServiceTests {
-//
-//
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Test
-//    public void testGetAllUser(){
-//        assertNotNull(userRepository.findAll());
-//    }
-//}
 
 
 package com.yashcode.EcommerceBackend.service;
 
 import com.yashcode.EcommerceBackend.Repository.RoleRepository;
 import com.yashcode.EcommerceBackend.Repository.UserRepository;
-import com.yashcode.EcommerceBackend.dto.UserDto;
+import com.yashcode.EcommerceBackend.entity.dto.UserDto;
 import com.yashcode.EcommerceBackend.entity.Role;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.AlreadyExistException;
@@ -36,10 +15,8 @@ import com.yashcode.EcommerceBackend.request.UserUpdateRequest;
 import com.yashcode.EcommerceBackend.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -58,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class UserServiceTest {
+public class UserServiceTests {
 
     @Mock
     private UserRepository userRepository;

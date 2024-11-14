@@ -1,10 +1,6 @@
-package com.yashcode.EcommerceBackend.dto;
+package com.yashcode.EcommerceBackend.entity.dto;
 
-import com.yashcode.EcommerceBackend.entity.Category;
-import com.yashcode.EcommerceBackend.entity.Image;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;

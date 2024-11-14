@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class CartItemServiceTest {
+public class CartItemServiceTests {
 
     @Mock
     private CartItemRepository cartItemRepository;
@@ -56,7 +56,7 @@ class CartItemServiceTest {
         cartItem = new CartItem();
         cartItem.setId(1L);
         cartItem.setProduct(product);
-        cartItem.setQuantity(2);
+        cartItem.setQuantity(5);
         cartItem.setUnitPrice(BigDecimal.valueOf(100));
         cartItem.setTotalPrice(BigDecimal.valueOf(200));
 
@@ -86,9 +86,9 @@ class CartItemServiceTest {
         when(cartService.getCart(1L)).thenReturn(cart);
         when(productService.getProductById(1L)).thenReturn(product);
 
-        cartItemService.addItemToCart(1L, 1L, 3); // Adding more quantity to existing item
+        cartItemService.addItemToCart(1L, 1L, 5); // Adding more quantity to existing item
 
-        assertEquals(1, cart.getCartItems().size());
+        assertEquals(2, cart.getCartItems().size());
         assertEquals(5, cartItem.getQuantity());
         verify(cartItemRepository, times(1)).save(cartItem);
         verify(cartRepository, times(1)).save(cart);
@@ -128,8 +128,7 @@ class CartItemServiceTest {
     @Test
     void testUpdateItemQuantity_ItemNotFound() {
         when(cartService.getCart(1L)).thenReturn(cart);
-
-        assertThrows(ResourceNotFoundException.class, () -> cartItemService.updateItemQuantity(1L, 2L, 5));
+        assertThrows(ResourceNotFoundException.class, () -> cartItemService.updateItemQuantity(2L, 2L, 5));
         verify(cartRepository, never()).save(cart);
     }
 

@@ -2,9 +2,9 @@ package com.yashcode.EcommerceBackend.service;
 
 import com.yashcode.EcommerceBackend.Repository.OrderRepository;
 import com.yashcode.EcommerceBackend.Repository.ProductRepository;
-import com.yashcode.EcommerceBackend.dto.OrderDto;
+import com.yashcode.EcommerceBackend.entity.dto.OrderDto;
 import com.yashcode.EcommerceBackend.entity.*;
-import com.yashcode.EcommerceBackend.enums.OrderStatus;
+import com.yashcode.EcommerceBackend.entity.enums.OrderStatus;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.service.Cart.CartService;
 import com.yashcode.EcommerceBackend.service.order.OrderService;
@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class OrderServiceTest {
+public class OrderServiceTests {
 
     @Mock
     private OrderRepository orderRepository;
@@ -134,7 +134,7 @@ class OrderServiceTest {
         when(userService.getAuthenticatedUser()).thenReturn(user);
         when(orderRepository.findByUserId(1L)).thenReturn(List.of());
 
-        assertThrows(ResourceNotFoundException.class, () -> orderService.getUserOrders(1L));
+        assertThrows(ResourceNotFoundException.class, () -> orderService.getUserOrders(4L));
     }
 
     @Test

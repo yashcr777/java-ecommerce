@@ -1,6 +1,6 @@
 package com.yashcode.EcommerceBackend.controller;
 
-import com.yashcode.EcommerceBackend.dto.OrderDto;
+import com.yashcode.EcommerceBackend.entity.dto.OrderDto;
 import com.yashcode.EcommerceBackend.entity.Order;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.response.ApiResponse;

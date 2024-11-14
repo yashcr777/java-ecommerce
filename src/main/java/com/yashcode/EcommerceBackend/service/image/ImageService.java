@@ -1,7 +1,7 @@
 package com.yashcode.EcommerceBackend.service.image;
 
 import com.yashcode.EcommerceBackend.Repository.ImageRepository;
-import com.yashcode.EcommerceBackend.dto.ImageDto;
+import com.yashcode.EcommerceBackend.entity.dto.ImageDto;
 import com.yashcode.EcommerceBackend.entity.Image;
 import com.yashcode.EcommerceBackend.entity.Product;
 import com.yashcode.EcommerceBackend.service.product.IProductService;

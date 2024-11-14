@@ -3,8 +3,8 @@ package com.yashcode.EcommerceBackend.service;
 import com.yashcode.EcommerceBackend.Repository.CategoryRepository;
 import com.yashcode.EcommerceBackend.Repository.ImageRepository;
 import com.yashcode.EcommerceBackend.Repository.ProductRepository;
-import com.yashcode.EcommerceBackend.dto.AddProductDTO;
-import com.yashcode.EcommerceBackend.dto.ProductUpdateDTO;
+import com.yashcode.EcommerceBackend.entity.dto.AddProductDTO;
+import com.yashcode.EcommerceBackend.entity.dto.ProductUpdateDTO;
 import com.yashcode.EcommerceBackend.entity.Category;
 import com.yashcode.EcommerceBackend.entity.Product;
 import com.yashcode.EcommerceBackend.exceptions.AlreadyExistException;
@@ -12,10 +12,8 @@ import com.yashcode.EcommerceBackend.exceptions.ProductNotFoundException;
 import com.yashcode.EcommerceBackend.service.product.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -31,7 +29,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @SpringBootTest
-class ProductServiceTest {
+public class ProductServiceTests {
 
     @Mock
     private ProductRepository productRepository;
@@ -56,7 +54,7 @@ class ProductServiceTest {
     @BeforeEach
     void setUp() {
         category = new Category("Electronics");
-        product = new Product("iPhone", "Apple", BigDecimal.valueOf(1000.0) , 50, "Smartphone", List.of(category));
+        product = new Product("iPhone", "Apple", BigDecimal.valueOf(1200.0) , 50, "Smartphone", List.of(category));
 
         Category categoryDto = new Category();
         categoryDto.setName("Electronics");
@@ -64,7 +62,7 @@ class ProductServiceTest {
         addProductDTO = new AddProductDTO();
         addProductDTO.setName("iPhone");
         addProductDTO.setBrand("Apple");
-        addProductDTO.setPrice(BigDecimal.valueOf(1000.0));
+        addProductDTO.setPrice(BigDecimal.valueOf(1200.0));
         addProductDTO.setInventory(50);
         addProductDTO.setDescription("Smartphone");
         addProductDTO.setCategory(categoryDto);
@@ -72,7 +70,7 @@ class ProductServiceTest {
         productUpdateDTO = new ProductUpdateDTO();
         productUpdateDTO.setName("iPhone Pro");
         productUpdateDTO.setBrand("Apple");
-        productUpdateDTO.setPrice(BigDecimal.valueOf(1000.0));
+        productUpdateDTO.setPrice(BigDecimal.valueOf(1200.0));
         productUpdateDTO.setInventory(40);
         productUpdateDTO.setDescription("Pro version of iPhone");
         productUpdateDTO.setCategory(category);
@@ -131,7 +129,7 @@ class ProductServiceTest {
 
         Product updatedProduct = productService.updateProduct(productUpdateDTO, 1L);
         assertEquals("iPhone Pro", updatedProduct.getName());
-        assertEquals(1200.0, updatedProduct.getPrice());
+        assertEquals(1200.0, updatedProduct.getPrice().doubleValue());
     }
 
     @Test

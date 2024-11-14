@@ -1,6 +1,6 @@
 package com.yashcode.EcommerceBackend.controller;
 
-import com.yashcode.EcommerceBackend.dto.UserDto;
+import com.yashcode.EcommerceBackend.entity.dto.UserDto;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.request.CreateUserRequest;
@@ -29,7 +29,7 @@ public class UserController {
         try {
             User user=userService.getUserById(userId);
             UserDto userDto=userService.convertUserToDto(user);
-            return ResponseEntity.ok(new ApiResponse("Success",user));
+            return ResponseEntity.ok(new ApiResponse("Success",userDto));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }

@@ -3,10 +3,8 @@ package com.yashcode.EcommerceBackend.service.user;
 import com.yashcode.EcommerceBackend.Repository.RoleRepository;
 import com.yashcode.EcommerceBackend.Repository.UserRepository;
 
-import com.yashcode.EcommerceBackend.dto.ProductDto;
-import com.yashcode.EcommerceBackend.dto.UserDto;
+import com.yashcode.EcommerceBackend.entity.dto.UserDto;
 
-import com.yashcode.EcommerceBackend.entity.Product;
 import com.yashcode.EcommerceBackend.entity.Role;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.AlreadyExistException;

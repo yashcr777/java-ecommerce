@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class CartServiceTest {
+public class CartServiceTests {
 
     @Mock
     private CartRepository cartRepository;

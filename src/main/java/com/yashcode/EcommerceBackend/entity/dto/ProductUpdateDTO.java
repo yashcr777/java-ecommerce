@@ -1,4 +1,4 @@
-package com.yashcode.EcommerceBackend.dto;
+package com.yashcode.EcommerceBackend.entity.dto;
 
 import com.yashcode.EcommerceBackend.entity.Category;
 import lombok.Data;
@@ -6,8 +6,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class AddProductDTO {
-    private Long id;
+public class ProductUpdateDTO {
     private String name;
     private String brand;
     private BigDecimal price;

@@ -1,6 +1,6 @@
 package com.yashcode.EcommerceBackend.service.order;
 
-import com.yashcode.EcommerceBackend.dto.OrderDto;
+import com.yashcode.EcommerceBackend.entity.dto.OrderDto;
 import com.yashcode.EcommerceBackend.entity.Order;
 
 import java.util.List;

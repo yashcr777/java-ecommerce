@@ -1,4 +1,4 @@
-package com.yashcode.EcommerceBackend.dto;
+package com.yashcode.EcommerceBackend.entity.dto;
 
 import com.yashcode.EcommerceBackend.entity.CartItem;
 
