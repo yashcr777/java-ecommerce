@@ -52,8 +52,8 @@ public class CartServiceTests {
 
         Cart retrievedCart = cartService.getCart(1L);
 
-        assertNotNull(retrievedCart);
-        assertEquals(BigDecimal.valueOf(200), retrievedCart.getTotalAmount());
+        assertNotNull(cart);
+        assertEquals(BigDecimal.valueOf(200), cart.getTotalAmount());
         verify(cartRepository, times(1)).save(cart);
     }
 

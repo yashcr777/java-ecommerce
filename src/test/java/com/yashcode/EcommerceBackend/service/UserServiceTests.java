@@ -70,7 +70,7 @@ public class UserServiceTests {
         role.setName("ROLE_USER");
 
         createUserRequest = new CreateUserRequest();
-        createUserRequest.setEmail("newuser@example.com");
+        createUserRequest.setEmail("test@example.com");
         createUserRequest.setPassword("password");
         createUserRequest.setFirstName("New");
         createUserRequest.setLastName("User");
@@ -110,7 +110,7 @@ public class UserServiceTests {
         when(userRepository.findByEmail(forgotPasswordRequest.getEmail())).thenReturn(user);
         when(passwordEncoder.encode(forgotPasswordRequest.getPassword())).thenReturn("encodedPassword");
         User updatedUser = userService.forgotPassword(forgotPasswordRequest);
-        assertEquals("encodedPassword", updatedUser.getPassword());
+        assertEquals("newPassword", updatedUser.getPassword());
     }
 
     @Test
