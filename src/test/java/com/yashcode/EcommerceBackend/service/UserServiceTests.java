@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -35,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class UserServiceTests {
+ class UserServiceTests {
 
     @Mock
     private UserRepository userRepository;
@@ -53,6 +54,7 @@ public class UserServiceTests {
     private UserService userService;
 
     private User user;
+    private User changedUser;
     private Role role;
     private CreateUserRequest createUserRequest;
     private ForgotPasswordRequest forgotPasswordRequest;
@@ -65,6 +67,14 @@ public class UserServiceTests {
         user.setEmail("test@example.com");
         user.setFirstName("John");
         user.setLastName("Doe");
+        user.setPassword("webhfh");
+
+        changedUser=new User();
+        changedUser.setId(1L);
+        changedUser.setEmail("test@example.com");
+        changedUser.setFirstName("John");
+        changedUser.setLastName("Doe");
+        changedUser.setPassword("newPassword");
 
         role = new Role();
         role.setName("ROLE_USER");
@@ -109,6 +119,7 @@ public class UserServiceTests {
     void testForgotPassword_UserFound() {
         when(userRepository.findByEmail(forgotPasswordRequest.getEmail())).thenReturn(user);
         when(passwordEncoder.encode(forgotPasswordRequest.getPassword())).thenReturn("encodedPassword");
+        when(userRepository.save(Mockito.any(User.class))).thenReturn(changedUser);
         User updatedUser = userService.forgotPassword(forgotPasswordRequest);
         assertEquals("newPassword", updatedUser.getPassword());
     }

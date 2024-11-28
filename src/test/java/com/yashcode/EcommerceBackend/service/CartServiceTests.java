@@ -69,6 +69,8 @@ public class CartServiceTests {
     void testClearCart_Success() {
         when(cartRepository.findById(1L)).thenReturn(Optional.of(cart));
 
+        Cart cart1=new Cart();
+        cart1.setId(1L);
         cartService.clearCart(1L);
 
         assertEquals(BigDecimal.ZERO, cart.getTotalAmount());

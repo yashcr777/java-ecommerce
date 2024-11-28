@@ -3,7 +3,10 @@ package com.yashcode.EcommerceBackend.service;
 import com.yashcode.EcommerceBackend.Repository.CategoryRepository;
 import com.yashcode.EcommerceBackend.Repository.ImageRepository;
 import com.yashcode.EcommerceBackend.Repository.ProductRepository;
+import com.yashcode.EcommerceBackend.entity.Image;
 import com.yashcode.EcommerceBackend.entity.dto.AddProductDTO;
+import com.yashcode.EcommerceBackend.entity.dto.ImageDto;
+import com.yashcode.EcommerceBackend.entity.dto.ProductDto;
 import com.yashcode.EcommerceBackend.entity.dto.ProductUpdateDTO;
 import com.yashcode.EcommerceBackend.entity.Category;
 import com.yashcode.EcommerceBackend.entity.Product;
@@ -23,6 +26,7 @@ import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -175,5 +179,106 @@ public class ProductServiceTests {
 
         Page<Product> result = productService.getProductByPagination(0, 10);
         assertEquals(productPage, result);
+    }
+    @Test
+    void testConvertToDo() {
+        // Create a mock Product object
+        Product product = new Product();
+        product.setId(1L);
+        product.setName("Test Product");
+        product.setBrand("Test Brand");
+        product.setPrice(BigDecimal.valueOf(100.0));
+        product.setDescription("Test Description");
+
+        // Create a mock Category and set it to the product
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Test Category");
+        product.setCategory(Collections.singletonList(category));
+
+        // Create a mock Image object
+        Image image = new Image();
+        image.setId(1L);
+        image.setFileName("test.jpg");
+
+        // Mock the imageRepository and modelMapper behavior
+        when(imageRepository.findByProductId(product.getId())).thenReturn(Collections.singletonList(image));
+        ImageDto imageDto = new ImageDto();
+        when(modelMapper.map(image, ImageDto.class)).thenReturn(imageDto);
+
+        // Call the method to be tested
+        ProductDto productDto = productService.convertToDo(product);
+
+        // Assertions
+        assertEquals(product.getId(), productDto.getId());
+        assertEquals(product.getName(), productDto.getName());
+        assertEquals(product.getBrand(), productDto.getBrand());
+        assertEquals(product.getPrice(), productDto.getPrice());
+        assertEquals(product.getDescription(), productDto.getDescription());
+        assertEquals(1, productDto.getImages().size());
+    }
+    @Test
+    void testGetProductsByBrand() {
+        String brand = "Test Brand";
+        List<Product> products = Collections.singletonList(new Product());
+
+        when(productRepository.findByBrand(brand)).thenReturn(products);
+
+        List<Product> result = productService.getProductsByBrand(brand);
+
+        assertEquals(products, result);
+    }
+
+    @Test
+    void testGetProductsByBrandException() {
+        String brand = "Nonexistent Brand";
+
+        when(productRepository.findByBrand(brand)).thenThrow(new RuntimeException("Product not found!"));
+
+        assertThrows(RuntimeException.class, () -> productService.getProductsByBrand(brand));
+    }
+
+    @Test
+    void testGetProductsByCategoryAndBrand() {
+        String category = "Test Category";
+        String brand = "Test Brand";
+        List<Product> products = Collections.singletonList(new Product());
+
+        when(productRepository.findByCategoryNameAndBrand(category, brand)).thenReturn(products);
+
+        List<Product> result = productService.getProductsByCategoryAndBrand(category, brand);
+
+        assertEquals(products, result);
+    }
+
+    @Test
+    void testGetProductsByCategoryAndBrandException() {
+        String category = "Nonexistent Category";
+        String brand = "Nonexistent Brand";
+
+        when(productRepository.findByCategoryNameAndBrand(category, brand)).thenThrow(new RuntimeException("Product with given category or brand name is not present"));
+
+        assertThrows(RuntimeException.class, () -> productService.getProductsByCategoryAndBrand(category, brand));
+    }
+
+    @Test
+    void testGetProductsByName() {
+        String name = "Test Product";
+        List<Product> products = Collections.singletonList(new Product());
+
+        when(productRepository.findByName(name)).thenReturn(products);
+
+        List<Product> result = productService.getProductsByName(name);
+
+        assertEquals(products, result);
+    }
+
+    @Test
+    void testGetProductsByNameException() {
+        String name = "Nonexistent Product";
+
+        when(productRepository.findByName(name)).thenThrow(new RuntimeException("Product not found!"));
+
+        assertThrows(RuntimeException.class, () -> productService.getProductsByName(name));
     }
 }
