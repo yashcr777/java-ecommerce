@@ -13,6 +13,15 @@ public class ProductDto {
     private BigDecimal price;
     private int inventory;
     private String description;
-//    private List<Category> category;
     private List<ImageDto> images;
+
+    public ProductDto(String name, String brand, BigDecimal price) {
+        this.name=name;
+        this.brand=brand;
+        this.price=price;
+    }
+
+    public ProductDto() {
+
+    }
 }

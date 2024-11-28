@@ -43,4 +43,11 @@ public class Product {
         this.description = description;
         this.category = category;
     }
+
+
+    public Product(String name, String brandName, BigDecimal v) {
+        this.name=name;
+        this.brand=brandName;
+        this.price=v;
+    }
 }

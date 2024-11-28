@@ -120,28 +120,64 @@ public class UserControllerTests {
     @Test
     void testUpdateUser_Success() {
         // Arrange
+        Long userId = 1L;
         UserUpdateRequest request = new UserUpdateRequest();
         User user = new User();
-        when(userService.updateUser(any(UserUpdateRequest.class), anyLong())).thenReturn(user);
-        when(userService.convertUserToDto(any(User.class))).thenReturn(new UserDto());
+        UserDto userDto = new UserDto();
+        when(userService.updateUser(any(UserUpdateRequest.class), eq(userId))).thenReturn(user);
+        when(userService.convertUserToDto(any(User.class))).thenReturn(userDto);
 
         // Act
-        ResponseEntity<ApiResponse> response = userController.updateUser(request, 1L);
+        ResponseEntity<ApiResponse> response = userController.updateUser(request, userId);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Successfully updated User", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
+        assertTrue(response.getBody().getData() instanceof UserDto);
+    }
+
+    @Test
+    void testUpdateUser_UserNotFound() {
+        // Arrange
+        Long userId = 1L;
+        UserUpdateRequest request = new UserUpdateRequest();
+        when(userService.updateUser(any(UserUpdateRequest.class), eq(userId))).thenThrow(new ResourceNotFoundException("User not found"));
+
+        // Act
+        ResponseEntity<ApiResponse> response = userController.updateUser(request, userId);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("User not found", response.getBody().getMessage());
+        assertNull(response.getBody().getData());
     }
 
     @Test
     void testDeleteUser_Success() {
+        // Arrange
+        Long userId = 1L;
+
         // Act
-        ResponseEntity<ApiResponse> response = userController.deleteUser(1L);
+        ResponseEntity<ApiResponse> response = userController.deleteUser(userId);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Successfully Deleted User", response.getBody().getMessage());
+    }
+
+    @Test
+    void testDeleteUser_NotFound() {
+        // Arrange
+        Long userId = 1L;
+        doThrow(new ResourceNotFoundException("User not found")).when(userService).deletedUser(userId);
+
+        // Act
+        ResponseEntity<ApiResponse> response = userController.deleteUser(userId);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("User not found", response.getBody().getMessage());
     }
 
     @Test
@@ -169,4 +205,57 @@ public class UserControllerTests {
         // Assert
         assertNotNull(response);
     }
+    @Test
+    void testUserPaginationAndSorting_Success() {
+        // Arrange
+        int offset = 0;
+        int pageSize = 5;
+        String field = "name"; // Assuming we are sorting by name
+        List<User> users = new ArrayList<>();
+        users.add(new User()); // Adding dummy data for pagination
+        when(userService.getUserByPaginationAndSorting(offset, pageSize, field)).thenReturn(new PageImpl<>(users));
+
+        // Act
+        List<User> response = userController.userPaginationAndSorting(offset, pageSize, field);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(1, response.size()); // Since we added one user
+    }
+
+    @Test
+    void testUserPaginationAndSorting_EmptyList() {
+        // Arrange
+        int offset = 0;
+        int pageSize = 5;
+        String field = "name"; // Assuming we are sorting by name
+        List<User> users = new ArrayList<>();
+        when(userService.getUserByPaginationAndSorting(offset, pageSize, field)).thenReturn(new PageImpl<>(users));
+
+        // Act
+        List<User> response = userController.userPaginationAndSorting(offset, pageSize, field);
+
+        // Assert
+        assertNotNull(response);
+        assertTrue(response.isEmpty()); // No users in the list
+    }
+
+    @Test
+    void testUserPaginationAndSorting_InvalidField() {
+        // Arrange
+        int offset = 0;
+        int pageSize = 5;
+        String field = "invalidField"; // Assuming this is an invalid field for sorting
+        List<User> users = new ArrayList<>();
+        users.add(new User());
+        when(userService.getUserByPaginationAndSorting(offset, pageSize, field)).thenReturn(new PageImpl<>(users));
+
+        // Act
+        List<User> response = userController.userPaginationAndSorting(offset, pageSize, field);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(1, response.size()); // Even with an invalid field, it should return users
+    }
+
 }
