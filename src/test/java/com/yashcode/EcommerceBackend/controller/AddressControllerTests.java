@@ -1,6 +1,6 @@
 package com.yashcode.EcommerceBackend.controller;
 
-import com.yashcode.EcommerceBackend.controller.AddressController;
+
 import com.yashcode.EcommerceBackend.entity.Address;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
@@ -23,7 +23,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @SpringBootTest
-public class AddressControllerTests {
+ class AddressControllerTests {
 
     @InjectMocks
     private AddressController addressController;
@@ -40,7 +40,7 @@ public class AddressControllerTests {
         addressController=new AddressController(addressService,userService);
     }
 
-    // Test case for createAddress method (success)
+
     @Test
     void testCreateAddress_Success() throws Exception {
         CreateAddressRequest request = new CreateAddressRequest();
@@ -58,7 +58,7 @@ public class AddressControllerTests {
         assertEquals(address, response.getBody().getData());
     }
 
-    // Test case for createAddress method (failure: ResourceNotFound)
+
     @Test
     void testCreateAddress_ResourceNotFound() throws Exception {
         CreateAddressRequest request = new CreateAddressRequest();
@@ -73,7 +73,7 @@ public class AddressControllerTests {
         assertNull(response.getBody().getData());
     }
 
-    // Test case for getAddressByUserId method (success)
+
     @Test
     void testGetAddressByUserId_Success() throws Exception {
         Long userId = 1L;
@@ -93,7 +93,7 @@ public class AddressControllerTests {
         assertEquals(addresses, response.getBody().getData());
     }
 
-    // Test case for getAddressByUserId method (failure: ResourceNotFound)
+
     @Test
     void testGetAddressByUserId_ResourceNotFound() throws Exception {
         Long userId = 1L;
@@ -108,7 +108,7 @@ public class AddressControllerTests {
         assertNull(response.getBody().getData());
     }
 
-    // Test case for deleteAddress method (success)
+
     @Test
     void testDeleteAddress_Success() throws Exception {
         Long addressId = 1L;
@@ -123,7 +123,7 @@ public class AddressControllerTests {
         assertNull(response.getBody().getData());
     }
 
-    // Test case for deleteAddress method (failure: ResourceNotFound)
+
     @Test
     void testDeleteAddress_ResourceNotFound() throws Exception {
         Long addressId = 1L;

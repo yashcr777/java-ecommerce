@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class ProductControllerTests {
+ class ProductControllerTests {
 
     @Mock
     private IProductService productService;
@@ -40,7 +40,7 @@ public class ProductControllerTests {
     }
 
     @Test
-    public void testGetAllProducts_Success() {
+    void testGetAllProducts_Success() {
         // Arrange
         List<Product> productList = new ArrayList<>();
         productList.add(new Product()); // Add sample product
@@ -57,7 +57,7 @@ public class ProductControllerTests {
     }
 
     @Test
-    public void testAddProduct_Success() {
+     void testAddProduct_Success() {
         // Arrange
         AddProductDTO addProductDTO = new AddProductDTO();
         Product product = new Product();
@@ -74,7 +74,7 @@ public class ProductControllerTests {
     }
 
     @Test
-    public void testGetProductById_Success() {
+     void testGetProductById_Success() {
         // Arrange
         Product product = new Product();
         when(productService.getProductById(anyLong())).thenReturn(product);
@@ -90,17 +90,17 @@ public class ProductControllerTests {
     }
 
     @Test
-    public void testUpdateProduct_Success() {
-        // Arrange
+     void testUpdateProduct_Success() {
+
         ProductUpdateDTO updateDTO = new ProductUpdateDTO();
         Product product = new Product();
         when(productService.updateProduct(any(ProductUpdateDTO.class), anyLong())).thenReturn(product);
         when(productService.convertToDo(any(Product.class))).thenReturn(new ProductDto());
 
-        // Act
+
         ResponseEntity<ApiResponse> response = productController.updateProduct(updateDTO, 1L);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("success", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
@@ -108,17 +108,17 @@ public class ProductControllerTests {
 
     @Test
     public void testDeleteProduct_Success() {
-        // Act
+
         ResponseEntity<ApiResponse> response = productController.deleteProduct(1L);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("success", response.getBody().getMessage());
     }
 
     @Test
     public void testGetProductsByBrandName_Success() {
-        // Arrange
+
         String brandName = "Samsung";
         List<Product> products = new ArrayList<>();
         products.add(new Product("Galaxy S21", "Samsung", new BigDecimal(799.99)));
@@ -131,10 +131,9 @@ public class ProductControllerTests {
         when(productService.getProductsByBrand(brandName)).thenReturn(products);
         when(productService.getConvertedProducts(products)).thenReturn(convertedProducts);
 
-        // Act
+
         ResponseEntity<ApiResponse> response = productController.getProductsByBrandName(brandName);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Success", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
@@ -201,21 +200,21 @@ public class ProductControllerTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Success", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
-        assertTrue(response.getBody().getData() instanceof List);
+        assertInstanceOf(List.class, response.getBody().getData());
     }
 
     @Test
     void testGetProductsByName_NoProductsFound() {
-        // Arrange
+
         String productName = "Non-Existing Product";
         List<Product> products = new ArrayList<>();
 
         when(productService.getProductsByName(productName)).thenReturn(products);
 
-        // Act
+
         ResponseEntity<ApiResponse> response = productController.getProductsByName(productName);
 
-        // Assert
+
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("No products with given name", response.getBody().getMessage());
         assertNull(response.getBody().getData());
@@ -223,30 +222,30 @@ public class ProductControllerTests {
 
     @Test
     void testGetProductsByName_ExceptionHandling() {
-        // Arrange
+
         String productName = "Sample Product";
         when(productService.getProductsByName(productName)).thenThrow(new ResourceNotFoundException("Error retrieving products"));
 
-        // Act
+
         ResponseEntity<ApiResponse> response = productController.getProductsByName(productName);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode()); // It returns a 200 OK even in case of exception
         assertEquals("Error retrieving products", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
     @Test
     public void testSortProducts_Success() {
-        // Arrange
+
         List<Product> sortedProducts = new ArrayList<>();
         sortedProducts.add(new Product("Product A", "Brand A",new BigDecimal(1)));
         sortedProducts.add(new Product("Product B", "Brand B", new BigDecimal(1)));
         when(productService.sortByField(anyString())).thenReturn(sortedProducts);
 
-        // Act
+
         List<Product> response = productController.sortProducts("name");
 
-        // Assert
+
         assertNotNull(response);
         assertEquals(2, response.size());
         assertEquals("Product A", response.get(0).getName());
@@ -255,16 +254,16 @@ public class ProductControllerTests {
 
     @Test
     public void testSortProductsByDesc_Success() {
-        // Arrange
+
         List<Product> sortedProductsDesc = new ArrayList<>();
         sortedProductsDesc.add(new Product("Product B", "Brand B", new BigDecimal(1)));
         sortedProductsDesc.add(new Product("Product A", "Brand A", new BigDecimal(1)));
         when(productService.sortByFieldDesc(anyString())).thenReturn(sortedProductsDesc);
 
-        // Act
+
         List<Product> response = productController.sortProductsByDesc("name");
 
-        // Assert
+
         assertNotNull(response);
         assertEquals(2, response.size());
         assertEquals("Product B", response.get(0).getName());
@@ -273,7 +272,7 @@ public class ProductControllerTests {
 
     @Test
     public void testProductPagination_Success() {
-        // Arrange
+
         List<Product> paginatedProducts = new ArrayList<>();
         paginatedProducts.add(new Product("Product A", "Brand A", new BigDecimal(1)));
         paginatedProducts.add(new Product("Product B", "Brand B", new BigDecimal(1)));
@@ -281,10 +280,10 @@ public class ProductControllerTests {
         when(productPage.getContent()).thenReturn(paginatedProducts);
         when(productService.getProductByPagination(1, 1)).thenReturn(productPage);
 
-        // Act
+
         List<Product> response = productController.productPagination(1, 1);
 
-        // Assert
+
         assertNotNull(response);
         assertEquals(2, response.size());
         assertEquals("Product A", response.get(0).getName());
@@ -421,7 +420,7 @@ public class ProductControllerTests {
 
     @Test
     public void testGetProductsByBrandAndName_Success() {
-        // Arrange
+
         String brandName = "Samsung";
         String productName = "Galaxy S21";
 
@@ -436,10 +435,10 @@ public class ProductControllerTests {
         when(productService.getProductsByBrandAndName(brandName, productName)).thenReturn(products);
         when(productService.getConvertedProducts(products)).thenReturn(convertedProducts);
 
-        // Act
+
         ResponseEntity<ApiResponse> response = productController.getProductsByBrandAndName(brandName, productName);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Success", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
@@ -450,17 +449,17 @@ public class ProductControllerTests {
 
     @Test
     public void testGetProductsByBrandAndName_NoProductsFound() {
-        // Arrange
+
         String brandName = "Samsung";
         String productName = "NonExistingProduct";
         List<Product> products = new ArrayList<>();
 
         when(productService.getProductsByBrandAndName(brandName, productName)).thenReturn(products);
 
-        // Act
+
         ResponseEntity<ApiResponse> response = productController.getProductsByBrandAndName(brandName, productName);
 
-        // Assert
+
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("No products with this brand name and product name", response.getBody().getMessage());
         assertNull(response.getBody().getData());

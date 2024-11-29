@@ -41,16 +41,16 @@ public class OrderControllerTests {
 
     @Test
     void testCreateOrder_Success() {
-        // Arrange
+
         Order order = new Order();
         OrderDto orderDto = new OrderDto();
         when(orderService.placeOrder(anyLong())).thenReturn(order);
         when(orderService.convertToDto(order)).thenReturn(orderDto);
 
-        // Act
+
         ResponseEntity<ApiResponse> response = orderController.createOrder(1L);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Order placed Successfully", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
@@ -60,13 +60,13 @@ public class OrderControllerTests {
 
     @Test
     void testCreateOrder_ResourceNotFoundException() {
-        // Arrange
+
         when(orderService.placeOrder(anyLong())).thenThrow(new ResourceNotFoundException("User not found"));
 
-        // Act
+
         ResponseEntity<ApiResponse> response = orderController.createOrder(1L);
 
-        // Assert
+
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertEquals("User not found", response.getBody().getMessage());
         assertNull(response.getBody().getData());
@@ -75,14 +75,14 @@ public class OrderControllerTests {
 
     @Test
     void testGetOrder_Success() {
-        // Arrange
+
         OrderDto orderDto = new OrderDto();
         when(orderService.getOrder(anyLong())).thenReturn(orderDto);
 
-        // Act
+
         ResponseEntity<ApiResponse> response = orderController.getOrder(1L);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Success", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
@@ -91,13 +91,13 @@ public class OrderControllerTests {
 
     @Test
     void testGetOrder_ResourceNotFoundException() {
-        // Arrange
+
         when(orderService.getOrder(anyLong())).thenThrow(new ResourceNotFoundException("Order not found"));
 
-        // Act
+
         ResponseEntity<ApiResponse> response = orderController.getOrder(1L);
 
-        // Assert
+
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("Order not found", response.getBody().getMessage());
         assertNull(response.getBody().getData());
@@ -106,14 +106,14 @@ public class OrderControllerTests {
 
     @Test
     void testGetOrderByUserId_Success() {
-        // Arrange
+
         List<OrderDto> orderDtos = new ArrayList<>();
         when(orderService.getUserOrders(anyLong())).thenReturn(orderDtos);
 
-        // Act
+
         ResponseEntity<ApiResponse> response = orderController.getOrderByUserId(1L);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Success", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());

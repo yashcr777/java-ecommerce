@@ -24,7 +24,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @SpringBootTest
-public class UserControllerTests {
+ class UserControllerTests {
 
     @Mock
     private IUserService userService;
@@ -40,15 +40,15 @@ public class UserControllerTests {
 
     @Test
     void testGetUserById_Success() {
-        // Arrange
+
         User user = new User();
         when(userService.getUserById(anyLong())).thenReturn(user);
         when(userService.convertUserToDto(any(User.class))).thenReturn(new UserDto());
 
-        // Act
+
         ResponseEntity<ApiResponse> response = userController.getUserById(1L);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Success", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
@@ -102,16 +102,16 @@ public class UserControllerTests {
 
     @Test
     void testForgotPassword_Success() {
-        // Arrange
+
         ForgotPasswordRequest request = new ForgotPasswordRequest();
         User user = new User();
         when(userService.forgotPassword(any(ForgotPasswordRequest.class))).thenReturn(user);
         when(userService.convertUserToDto(any(User.class))).thenReturn(new UserDto());
 
-        // Act
+
         ResponseEntity<ApiResponse> response = userController.forgotPassword(request);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Successfully updated Password", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
@@ -210,42 +210,7 @@ public class UserControllerTests {
         // Arrange
         int offset = 0;
         int pageSize = 5;
-        String field = "name"; // Assuming we are sorting by name
-        List<User> users = new ArrayList<>();
-        users.add(new User()); // Adding dummy data for pagination
-        when(userService.getUserByPaginationAndSorting(offset, pageSize, field)).thenReturn(new PageImpl<>(users));
-
-        // Act
-        List<User> response = userController.userPaginationAndSorting(offset, pageSize, field);
-
-        // Assert
-        assertNotNull(response);
-        assertEquals(1, response.size()); // Since we added one user
-    }
-
-    @Test
-    void testUserPaginationAndSorting_EmptyList() {
-        // Arrange
-        int offset = 0;
-        int pageSize = 5;
-        String field = "name"; // Assuming we are sorting by name
-        List<User> users = new ArrayList<>();
-        when(userService.getUserByPaginationAndSorting(offset, pageSize, field)).thenReturn(new PageImpl<>(users));
-
-        // Act
-        List<User> response = userController.userPaginationAndSorting(offset, pageSize, field);
-
-        // Assert
-        assertNotNull(response);
-        assertTrue(response.isEmpty()); // No users in the list
-    }
-
-    @Test
-    void testUserPaginationAndSorting_InvalidField() {
-        // Arrange
-        int offset = 0;
-        int pageSize = 5;
-        String field = "invalidField"; // Assuming this is an invalid field for sorting
+        String field = "name";
         List<User> users = new ArrayList<>();
         users.add(new User());
         when(userService.getUserByPaginationAndSorting(offset, pageSize, field)).thenReturn(new PageImpl<>(users));
@@ -255,7 +220,42 @@ public class UserControllerTests {
 
         // Assert
         assertNotNull(response);
-        assertEquals(1, response.size()); // Even with an invalid field, it should return users
+        assertEquals(1, response.size());
+    }
+
+    @Test
+    void testUserPaginationAndSorting_EmptyList() {
+        // Arrange
+        int offset = 0;
+        int pageSize = 5;
+        String field = "name";
+        List<User> users = new ArrayList<>();
+        when(userService.getUserByPaginationAndSorting(offset, pageSize, field)).thenReturn(new PageImpl<>(users));
+
+        // Act
+        List<User> response = userController.userPaginationAndSorting(offset, pageSize, field);
+
+        // Assert
+        assertNotNull(response);
+        assertTrue(response.isEmpty());
+    }
+
+    @Test
+    void testUserPaginationAndSorting_InvalidField() {
+        // Arrange
+        int offset = 0;
+        int pageSize = 5;
+        String field = "invalidField";
+        List<User> users = new ArrayList<>();
+        users.add(new User());
+        when(userService.getUserByPaginationAndSorting(offset, pageSize, field)).thenReturn(new PageImpl<>(users));
+
+        // Act
+        List<User> response = userController.userPaginationAndSorting(offset, pageSize, field);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(1, response.size());
     }
 
 }
