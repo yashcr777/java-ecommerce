@@ -13,13 +13,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Optional;
 @SpringBootTest
-public class AddressServiceTests {
+ class AddressServiceTests {
 
     @Mock
     private AddressRepository addressRepository;
@@ -27,9 +27,11 @@ public class AddressServiceTests {
     @InjectMocks
     private AddressService addressService;
 
+
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        Address address1 = new Address();
+        address1.setId(1L);
     }
 
     @Test
