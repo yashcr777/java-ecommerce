@@ -52,6 +52,7 @@ import static org.mockito.Mockito.*;
         product = new Product();
         product.setId(1L);
         product.setPrice(BigDecimal.valueOf(100));
+        product.setInventory(100);
 
         cartItem = new CartItem();
         cartItem.setId(1L);
@@ -86,11 +87,11 @@ import static org.mockito.Mockito.*;
         when(cartService.getCart(1L)).thenReturn(cart);
         when(productService.getProductById(1L)).thenReturn(product);
 
-        cartItemService.addItemToCart(1L, 1L, 5); // Adding more quantity to existing item
+        cartItemService.addItemToCart(1L, 1L, 10);
 
         assertEquals(2, cart.getCartItems().size());
-        assertEquals(5, cartItem.getQuantity());
-        verify(cartItemRepository, times(1)).save(cartItem);
+        assertEquals(10, cartItem.getQuantity());
+        verify(cartItemRepository, times(2)).save(cartItem);
         verify(cartRepository, times(1)).save(cart);
     }
 

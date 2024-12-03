@@ -50,7 +50,7 @@ import java.util.Optional;
 
     @Test
     public void testCreateAddress() {
-        CreateAddressRequest request = new CreateAddressRequest(); // Replace with actual request object
+        CreateAddressRequest request = new CreateAddressRequest();
         User user = new User();
         Address address = new Address();
         when(addressRepository.save(any(Address.class))).thenReturn(address);
@@ -63,7 +63,7 @@ import java.util.Optional;
 
     @Test
     public void testCreateAddressThrowsException() {
-        CreateAddressRequest request = new CreateAddressRequest(); // Replace with actual request object
+        CreateAddressRequest request = new CreateAddressRequest();
         User user = new User();
         when(addressRepository.save(any(Address.class))).thenThrow(new RuntimeException("Error"));
 

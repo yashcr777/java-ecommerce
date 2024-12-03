@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 
 @Nested
 @SpringBootTest
-public class AuthControllerTests {
+ class AuthControllerTests {
 
     @InjectMocks
     private AuthController authController;

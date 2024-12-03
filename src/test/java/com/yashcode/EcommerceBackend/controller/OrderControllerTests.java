@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class OrderControllerTests {
+ class OrderControllerTests {
 
     @Mock
     private IOrderService orderService;

@@ -107,7 +107,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-    public void testDeleteProduct_Success() {
+     void testDeleteProduct_Success() {
 
         ResponseEntity<ApiResponse> response = productController.deleteProduct(1L);
 
@@ -117,7 +117,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-    public void testGetProductsByBrandName_Success() {
+     void testGetProductsByBrandName_Success() {
 
         String brandName = "Samsung";
         List<Product> products = new ArrayList<>();
@@ -143,7 +143,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-    public void testGetProductsByBrandName_NoProductsFound() {
+     void testGetProductsByBrandName_NoProductsFound() {
         // Arrange
         String brandName = "NonExistingBrand";
         List<Product> products = new ArrayList<>();
@@ -161,7 +161,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-    public void testGetProductsByBrandName_ResourceNotFoundException() {
+     void testGetProductsByBrandName_ResourceNotFoundException() {
         // Arrange
         String brandName = "NonExistingBrand";
 
@@ -235,7 +235,7 @@ import static org.mockito.Mockito.*;
         assertNull(response.getBody().getData());
     }
     @Test
-    public void testSortProducts_Success() {
+     void testSortProducts_Success() {
 
         List<Product> sortedProducts = new ArrayList<>();
         sortedProducts.add(new Product("Product A", "Brand A",new BigDecimal(1)));
@@ -253,7 +253,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-    public void testSortProductsByDesc_Success() {
+     void testSortProductsByDesc_Success() {
 
         List<Product> sortedProductsDesc = new ArrayList<>();
         sortedProductsDesc.add(new Product("Product B", "Brand B", new BigDecimal(1)));
