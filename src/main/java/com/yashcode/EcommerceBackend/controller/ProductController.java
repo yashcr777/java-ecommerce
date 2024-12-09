@@ -10,13 +10,16 @@ import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
 import com.yashcode.EcommerceBackend.response.ApiResponse;
 import com.yashcode.EcommerceBackend.service.product.IProductService;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -24,10 +27,12 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/products")
+@Slf4j
 public class ProductController {
     private final IProductService productService;
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    @RateLimiter(name="productRateLimiter",fallbackMethod = "productServiceFallBack")
     @GetMapping("/all")
     public ResponseEntity<ApiResponse>getAllProducts(){
         try {
@@ -37,6 +42,19 @@ public class ProductController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error",null));
         }
+    }
+    public ResponseEntity<ApiResponse>productServiceFallBack(Exception e){
+
+        log.info("Fallback is executed because service is down: ",e.getMessage());
+        List<Product>products=new ArrayList<>();
+        Product p=new Product();
+        p.setId(1234L);
+        p.setBrand("Dummy T");
+        p.setName("Dummy");
+        p.setDescription("This is dummy product because service is down");
+        p.setInventory(0);
+        products.add(p);
+        return ResponseEntity.status(TOO_MANY_REQUESTS).body(new ApiResponse("Service is down",products));
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/add")
