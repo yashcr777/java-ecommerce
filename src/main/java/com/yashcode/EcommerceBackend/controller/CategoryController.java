@@ -87,12 +87,12 @@ public class CategoryController {
     public List<Category>sortCategoryByDesc(@PathVariable String field){
         return categoryService.sortByFieldDesc(field);
     }
-    @GetMapping("/pagination/{offset}/{pageSize}")
-    public List<Category> categoryPagination(@PathVariable int offset, @PathVariable int pageSize){
+    @GetMapping("/pagination")
+    public List<Category> categoryPagination(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "10") int pageSize){
         return categoryService.getCategoryByPagination(offset,pageSize).getContent();
     }
-    @GetMapping("/paginationAndSorting/{offset}/{pageSize}/{field}")
-    public List<Category> categoriesPaginationAndSorting(@PathVariable int offset, @PathVariable int pageSize,@PathVariable String field){
+    @GetMapping("/paginationAndSorting/{field}")
+    public List<Category> categoriesPaginationAndSorting(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "10") int pageSize,@PathVariable String field){
         return categoryService.getCategoryByPaginationAndSorting(offset,pageSize,field).getContent();
     }
 }

@@ -37,7 +37,6 @@ public class ProductController {
     public ResponseEntity<ApiResponse>getAllProducts(){
         try {
             List<Product>productList=productService.getAllProducts();
-            List<ProductDto>convertedProducts=productService.getConvertedProducts(productList);
             return ResponseEntity.ok(new ApiResponse("Found All Products",productList));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error",null));
@@ -178,12 +177,12 @@ public class ProductController {
     public List<Product>sortProductsByDesc(@PathVariable String field){
         return productService.sortByFieldDesc(field);
     }
-    @GetMapping("/pagination/{offset}/{pageSize}")
-    public List<Product> productPagination(@PathVariable int offset, @PathVariable int pageSize){
+    @GetMapping("/pagination")
+    public List<Product> productPagination(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "10") int pageSize){
         return productService.getProductByPagination(offset,pageSize).getContent();
     }
-    @GetMapping("/paginationAndSorting/{offset}/{pageSize}/{field}")
-    public List<Product> productPaginationAndSorting(@PathVariable int offset, @PathVariable int pageSize,@PathVariable String field){
+    @GetMapping("/paginationAndSorting/{field}")
+    public List<Product> productPaginationAndSorting(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "10") int pageSize,@PathVariable String field){
         return productService.getProductByPaginationAndSorting(offset,pageSize,field).getContent();
     }
 }

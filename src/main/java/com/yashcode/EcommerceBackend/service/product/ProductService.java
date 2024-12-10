@@ -118,7 +118,9 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> getAllProducts() {
         try {
-            return productRepository.findAll();
+            List<Product>products= productRepository.findAll();
+            log.info("Successfully returned products");
+            return products;
         }
         catch(ResourceNotFoundException e){
             log.warn("There is no product present");
