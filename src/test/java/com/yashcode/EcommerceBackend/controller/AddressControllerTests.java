@@ -1,6 +1,4 @@
 package com.yashcode.EcommerceBackend.controller;
-
-
 import com.yashcode.EcommerceBackend.entity.Address;
 import com.yashcode.EcommerceBackend.entity.User;
 import com.yashcode.EcommerceBackend.exceptions.ResourceNotFoundException;
@@ -16,10 +14,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @SpringBootTest
